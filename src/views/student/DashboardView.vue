@@ -6,7 +6,6 @@ import {useFormulariosStore} from "@/stores/student/forms.js";
 import {routes} from "@/router/routes.js";
 import {ref} from 'vue';
 import {useNotificationStore} from "@/stores/notification.js";
-import {NotificationTypes as notificationTypes} from "@/util/notificationTypes.js";
 
 const formsStore = useFormulariosStore();
 const notification = useNotificationStore();
