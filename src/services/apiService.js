@@ -13,7 +13,8 @@ class ApiService {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'authorization': `Bearer ${localStorage.getItem('auth_token') || ''}`,
+                    'Access-Control-Allow-Origin': '*',
+                    'authorization': `Bearer ${localStorage.getItem('auth_token') || ''}`
                 }
             });
             console.log(`API_SERVICE_GET: ${response}`);
