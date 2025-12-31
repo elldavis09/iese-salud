@@ -31,7 +31,6 @@ const handleRegister = async () => {
 
 <template>
   <div class="min-h-[85vh] flex items-center justify-center px-4 bg-gradient-to-br from-indigo-50 via-white to-blue-50 py-12">
-
     <div class="max-w-md w-full bg-white rounded-3xl shadow-xl border border-gray-100 p-8 sm:p-10 relative overflow-hidden">
 
       <!-- Decoración de fondo sutil -->
@@ -44,6 +43,7 @@ const handleRegister = async () => {
         </div>
         <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">Crear Cuenta</h2>
         <p class="text-gray-500 mt-2 text-lg">Únete a nosotros hoy</p>
+        <h1>TESTING RAMAS</h1>
       </div>
 
       <!-- Alerta de Error -->
