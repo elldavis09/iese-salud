@@ -40,6 +40,7 @@ onMounted(() => {
         </p>
       </div>
 
+      <!-- View Mode Toggle & Forms Count -->
       <div class="flex items-center gap-3">
         <div class="flex bg-gray-200 p-1 rounded-lg">
           <button
@@ -94,7 +95,6 @@ onMounted(() => {
          :class="viewMode === 'grid' 
            ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' 
            : 'flex flex-col gap-4'">
-
       <div
           v-for="formulario in forms"
           :key="formulario.id"
