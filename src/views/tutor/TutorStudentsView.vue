@@ -73,7 +73,7 @@ onMounted(() => {
         @click="handleStudentClick(student)"
         class="group relative bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-lg hover:border-indigo-200 hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col items-center text-center"
       >
-        
+        <!-- Indicador de estado activo/inactivo -->
         <div class="absolute top-4 right-4" :title="student?.activo ? 'Usuario Activo' : 'Usuario Inactivo'">
           <span class="relative flex h-3 w-3">
             <span v-if="student?.activo" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -82,6 +82,7 @@ onMounted(() => {
           </span>
         </div>
 
+        <!-- Avatar con iniciales -->
         <div class="mb-4 relative">
           <div class="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-50 to-white border-2 border-indigo-100 flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform duration-300">
             <span class="text-2xl font-bold text-indigo-600 tracking-wider">
@@ -93,17 +94,21 @@ onMounted(() => {
           </div>
         </div>
 
+        <!-- Nombre completo -->
         <h3 class="text-gray-900 font-bold text-lg leading-tight mb-1 group-hover:text-indigo-700 transition-colors">
           {{ student?.full_name || 'Sin nombre' }}
         </h3>
-        
+
+        <!-- Email -->
         <div class="flex items-center gap-1.5 text-gray-500 text-sm mb-4 bg-gray-50 px-3 py-1 rounded-full max-w-full">
           <i class="ph ph-envelope-simple"></i>
           <span class="truncate">{{ student?.email || 'Sin email' }}</span>
         </div>
 
+        <!-- Separador -->
         <div class="w-full border-t border-gray-100 my-2"></div>
 
+        <!-- Rol y estado -->
         <div class="w-full flex items-center justify-between mt-2">
           
           <div class="flex flex-col items-start">
@@ -113,11 +118,12 @@ onMounted(() => {
             </span>
           </div>
 
-          <div 
+          <!-- Estado del estudiante -->
+          <div
             class="px-2.5 py-1 rounded-lg text-xs font-bold border transition-colors"
-            :class="getStatusClass(student.status) /* Asumiendo que esto devuelve clases de color Tailwind */"
+            :class="getStatusClass(student?.activo) /* Asumiendo que esto devuelve clases de color Tailwind */"
           >
-            {{ getStatusLabel(student.status) }}
+            {{ getStatusLabel(student?.activo) }}
           </div>
         </div>
 

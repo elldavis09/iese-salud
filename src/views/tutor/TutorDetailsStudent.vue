@@ -24,13 +24,10 @@ const props = defineProps(
 );
 
 const getStatusLabel = (status) => {
-  switch (status) {
-    case 1:
-      return 'completed';
-    case 2:
-      return 'pending';
-    default:
-      return 'Desconocido';
+  if (status === 0) {
+    return 'pending';
+  } else {
+    return 'completed';
   }
 };
 
@@ -121,20 +118,20 @@ onMounted(() => {
             @click="handleTestClick(test)"
             class="relative group bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300"
             :class="[
-            getStatusLabel(test.status) === 'completed'
+            getStatusLabel(test.intentos_count) === 'completed'
               ? 'hover:shadow-md hover:border-indigo-300 cursor-pointer'
               : 'opacity-90 bg-slate-50 cursor-default'
           ]"
         >
           <div class="absolute left-0 top-0 bottom-0 w-1.5 transition-colors duration-300"
-               :class="getStatusLabel(test.status) === 'completed' ? 'bg-emerald-500' : 'bg-amber-400'">
+               :class="getStatusLabel(test.intentos_count) === 'completed' ? 'bg-emerald-500' : 'bg-amber-400'">
           </div>
 
           <div class="p-5 pl-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="flex items-start gap-4">
               <div class="mt-1 p-3 rounded-xl shrink-0 flex items-center justify-center transition-colors"
-                   :class="getStatusLabel(test.status) === 'completed' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'">
-                <i :class="getStatusLabel(test.status) === 'completed' ? 'ph ph-check-circle' : 'ph ph-clock'" class="text-2xl"></i>
+                   :class="getStatusLabel(test.intentos_count) === 'completed' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'">
+                <i :class="getStatusLabel(test.intentos_count) === 'completed' ? 'ph ph-check-circle' : 'ph ph-clock'" class="text-2xl"></i>
               </div>
 
               <div>
@@ -160,7 +157,7 @@ onMounted(() => {
                 class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-6 sm:pl-0 pt-4 sm:pt-0 border-t sm:border-0 border-gray-100">
 
               <div class="text-right min-w-[100px]">
-                <template v-if="getStatusLabel(test.status) === 'completed'">
+                <template v-if="getStatusLabel(test.intentos_count) === 'completed'">
                   <span
                       class="block text-[10px] text-gray-400 uppercase font-bold tracking-wider mb-0.5">Resultado</span>
                   <div class="flex items-baseline justify-end gap-1">
