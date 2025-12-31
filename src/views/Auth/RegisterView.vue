@@ -27,7 +27,7 @@ watch(message, (newMessage) => {
   notification.triggerToast(newMessage, notificationType.info);
 });
 
-const handleRegister = () => {
+const handleRegister = async () => {
       if (form.password !== form.password_confirmation) {
         alert("Las contraseñas no coinciden");
         return;
@@ -51,7 +51,7 @@ const handleRegister = () => {
         alert("Por favor, selecciona un rol válido.");
         // return;
       }
-      // if (success) router.push('/login');
+      if (success) await router.push('/login');
     }
 ;
 </script>

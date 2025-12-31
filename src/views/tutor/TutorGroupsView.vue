@@ -17,10 +17,8 @@ const getGroupIcon = (id) => {
   return 'file-text';
 };
 
-
 // --- LIFECYCLE ---
 onMounted(() => {
-  // tutorGroupsStore.fetchGroups();
   tutorStore.fetchGroups()
 })
 
