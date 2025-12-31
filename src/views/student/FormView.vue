@@ -32,6 +32,12 @@ watch(attemptsMessage, (nuevoValor) => {
   notification.triggerToast(nuevoValor, notificationType.info);
 });
 
+watch (attemptsError, () => {
+  if (attemptsError.value) {
+    notification.triggerToast(attemptsError.value, notificationType.error);
+  }
+})
+
 const getAttemptResponses = async (attemptId) => {
   try {
     const responses = await attemptsStore.getAttemptResponses(formSelected?.value.id, attemptId);
