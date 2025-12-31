@@ -46,11 +46,8 @@ export const useAuthStore = defineStore('auth', () => {
         // Realizar el registro utilizando el servicio
         return authService.register(payload)
             .then((response) => {
-                user.value = response.user;
                 token.value = response.token;
-
                 localStorage.setItem('auth_token', response.token);
-                localStorage.setItem('auth_user', JSON.stringify(response.user));
                 return true;
             })
             .catch((err) => {
@@ -60,6 +57,45 @@ export const useAuthStore = defineStore('auth', () => {
             .finally(() => {
                 isLoading.value = false;
             });
+    }
+
+    async function registerStudent(payload) {
+        isLoading.value = true;
+        error.value = null;
+
+        return authService.registerStudent(payload)
+            .then((response) => {
+                token.value = response.token;
+                localStorage.setItem('auth_token', response.token);
+                return true;
+            })
+            .catch((err) => {
+                error.value = err.response?.data?.message || err.message || "Error al registrar estudiante.";
+                return false;
+            })
+            .finally(() => {
+                isLoading.value = false;
+            });
+    }
+
+    async function registerTutor(payload) {
+        isLoading.value = true;
+        error.value = null;
+
+        return authService.registerTutor(payload)
+            .then((response) => {
+                token.value = response.token;
+                localStorage.setItem('auth_token', response.token);
+                return true;
+            })
+            .catch((err) => {
+                error.value = err.response?.data?.message || err.message || "Error al registrar tutor.";
+                return false;
+            })
+            .finally(() => {
+                isLoading.value = false;
+            }
+        );
     }
 
     function logout() {
@@ -85,6 +121,8 @@ export const useAuthStore = defineStore('auth', () => {
         initializeAuth,
         loginAction,
         registerAction,
+        registerStudent,
+        registerTutor,
         logout
     };
 });

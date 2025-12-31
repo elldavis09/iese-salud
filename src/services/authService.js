@@ -28,6 +28,32 @@ const authService = {
                 });
         });
     },
+    async registerStudent(studentData) {
+        return new Promise((resolve, reject) => {
+            const api = new ApiService();
+            api.postData("student/register", studentData)
+                .then((data) => {
+                    console.log(data);
+                    resolve(data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    },
+    async registerTutor(tutorData) {
+        return new Promise((resolve, reject) => {
+            const api = new ApiService();
+            api.postData("tutor/register", tutorData)
+                .then((data) => {
+                    console.log(data);
+                    resolve(data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    },
     async logout() {
         return new Promise((resolve, reject) => {
             const api = new ApiService();
