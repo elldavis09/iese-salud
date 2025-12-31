@@ -16,8 +16,12 @@ class ApiService {
                 }
             });
             console.log(`API_SERVICE_GET: ${response}`);
-            if (!response.ok) {
+            /*if (!response.ok) {
                 throw new Error(`Error fetching data: ${response.statusText}`);
+            }*/
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || response.statusText);
             }
             return await response.json();
         } catch (error) {
@@ -41,7 +45,10 @@ class ApiService {
             console.log(`API_SERVICE_POST: ${response.statusText}`);
 
             if (!response.ok) {
-                throw new Error(response.statusText || "Algo salió mal");
+                const errorData = await response.json();
+                const error = new Error(errorData.message || response.statusText);
+                error.data = errorData;
+                throw error;
             }
             return await response.json();
         } catch (error) {

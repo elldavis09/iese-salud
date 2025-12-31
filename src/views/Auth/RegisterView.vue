@@ -1,37 +1,66 @@
 <!-- src/views/RegisterView.vue -->
 <script setup>
-import {reactive} from 'vue';
+import {reactive, ref, watch} from 'vue';
 import {useRouter} from 'vue-router';
 import {storeToRefs} from 'pinia';
-import {useAuthStore} from '../../stores/auth.js';
+import {useAuthStore} from '@/stores/auth.js';
+import ToggleTutorStudent from "@/components/ToggleTutorStudent.vue";
+import {useNotificationStore} from "@/stores/notification.js";
+import {NotificationTypes as notificationType} from "@/util/notificationTypes.js";
 
+const notification = useNotificationStore();
 const store = useAuthStore();
 const router = useRouter();
-const form = reactive({nombres: '', apellidos: '', email: '', password: '', password_confirmation: ''});
-const {isLoading, error} = storeToRefs(store);
+const {isLoading, error, message} = storeToRefs(store);
 
-const handleRegister = async () => {
-  if (form.password !== form.password_confirmation) {
-    alert("Las contraseñas no coinciden");
-    return;
-  }
-  const payload = {
-    nombres: form.nombres,
-    apellido: form.apellido,
-    email: form.email,
-    password: form.password,
-    password_confirmation: form.password_confirmation,
-  };
+const role = ref('student');
+const form = reactive({
+  role: '',
+  nombres: '',
+  apellidos: '',
+  email: '',
+  password: '',
+  password_confirmation: ''
+});
 
-  const success = await store.registerAction(payload);
+watch(message, (newMessage) => {
+  notification.triggerToast(newMessage, notificationType.info);
+});
 
-  if (success) router.push('/dashboard');
-};
+const handleRegister = () => {
+      if (form.password !== form.password_confirmation) {
+        alert("Las contraseñas no coinciden");
+        return;
+      }
+      const payload = {
+        nombres: form.nombres,
+        apellidos: form.apellidos,
+        email: form.email,
+        password: form.password,
+        password_confirmation: form.password_confirmation,
+      };
+
+      // const success = await store.registerAction(payload);
+      console.log('Registrando usuario:', form);
+      let success = false;
+      if (role.value === 'student') {
+        success = store.registerStudent(payload);
+      } else if (role.value === 'tutor') {
+        success = store.registerTutor(payload);
+      } else {
+        alert("Por favor, selecciona un rol válido.");
+        // return;
+      }
+      // if (success) router.push('/login');
+    }
+;
 </script>
 
 <template>
-  <div class="min-h-[85vh] flex items-center justify-center px-4 bg-gradient-to-br from-indigo-50 via-white to-blue-50 py-12">
-    <div class="max-w-md w-full bg-white rounded-3xl shadow-xl border border-gray-100 p-8 sm:p-10 relative overflow-hidden">
+  <div
+      class="min-h-[85vh] flex items-center justify-center px-4 bg-gradient-to-br from-indigo-50 via-white to-blue-50 py-12">
+    <div
+        class="max-w-md w-full bg-white rounded-3xl shadow-xl border border-gray-100 p-8 sm:p-10 relative overflow-hidden">
 
       <!-- Decoración de fondo sutil -->
       <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
@@ -43,7 +72,6 @@ const handleRegister = async () => {
         </div>
         <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">Crear Cuenta</h2>
         <p class="text-gray-500 mt-2 text-lg">Únete a nosotros hoy</p>
-        <h1>TESTING RAMAS</h1>
       </div>
 
       <!-- Alerta de Error -->
@@ -52,7 +80,8 @@ const handleRegister = async () => {
           enter-from-class="transform -translate-y-2 opacity-0"
           enter-to-class="transform translate-y-0 opacity-100"
       >
-        <div v-if="error" class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-lg text-sm flex items-start shadow-sm">
+        <div v-if="error"
+             class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-lg text-sm flex items-start shadow-sm">
           <i class="ph ph-warning-circle text-xl mr-3 mt-0.5 flex-shrink-0"></i>
           <span>{{ error }}</span>
         </div>
@@ -60,6 +89,8 @@ const handleRegister = async () => {
 
       <!-- Formulario -->
       <form @submit.prevent="handleRegister" class="space-y-5">
+
+        <ToggleTutorStudent v-model="role"/>
 
         <!-- Nombres y Apellidos (Grid para ahorrar espacio vertical) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -87,7 +118,7 @@ const handleRegister = async () => {
               </div>
               <input
                   id="apellido"
-                  v-model="form.apellido"
+                  v-model="form.apellidos"
                   type="text"
                   required
                   class="block w-full pl-9 pr-3 py-2.5 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all sm:text-sm shadow-sm"
@@ -135,7 +166,8 @@ const handleRegister = async () => {
 
         <!-- Password Confirmation -->
         <div>
-          <label for="password_confirmation" class="block text-sm font-semibold text-gray-700 mb-2">Confirmar Contraseña</label>
+          <label for="password_confirmation" class="block text-sm font-semibold text-gray-700 mb-2">Confirmar
+            Contraseña</label>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <i class="ph ph-check-circle text-gray-400 text-xl"></i>
@@ -168,7 +200,8 @@ const handleRegister = async () => {
       <div class="mt-8 text-center">
         <p class="text-sm text-gray-600">
           ¿Ya tienes cuenta?
-          <router-link to="/login" class="font-bold text-indigo-600 hover:text-indigo-800 transition-colors ml-1 hover:underline">
+          <router-link to="/login"
+                       class="font-bold text-indigo-600 hover:text-indigo-800 transition-colors ml-1 hover:underline">
             Inicia Sesión
           </router-link>
         </p>
