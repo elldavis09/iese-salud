@@ -7,6 +7,7 @@ export const useAuthStore = defineStore('auth', () => {
     const token = ref(localStorage.getItem('auth_token') || null);
     const isLoading = ref(false);
     const error = ref(null);
+    const message = ref(null);
 
     const isAuthenticated = computed(() => !!token.value);
 
@@ -42,8 +43,6 @@ export const useAuthStore = defineStore('auth', () => {
     async function registerAction(payload) {
         isLoading.value = true;
         error.value = null;
-
-        // Realizar el registro utilizando el servicio
         return authService.register(payload)
             .then((response) => {
                 token.value = response.token;
@@ -65,12 +64,15 @@ export const useAuthStore = defineStore('auth', () => {
 
         return authService.registerStudent(payload)
             .then((response) => {
+                message.value = response.message;
                 token.value = response.token;
                 localStorage.setItem('auth_token', response.token);
                 return true;
             })
             .catch((err) => {
-                error.value = err.response?.data?.message || err.message || "Error al registrar estudiante.";
+                error.value = err.data?.message || err.message || "Error al registrar estudiante.";
+                // Si quiero acceder a los detalles del error entonces uso err.data
+                console.log(JSON.stringify(err.data.errors))
                 return false;
             })
             .finally(() => {
@@ -117,10 +119,10 @@ export const useAuthStore = defineStore('auth', () => {
         token,
         isLoading,
         error,
+        message,
         isAuthenticated,
         initializeAuth,
         loginAction,
-        registerAction,
         registerStudent,
         registerTutor,
         logout

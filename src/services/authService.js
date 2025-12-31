@@ -33,7 +33,6 @@ const authService = {
             const api = new ApiService();
             api.postData("student/register", studentData)
                 .then((data) => {
-                    console.log(data);
                     resolve(data);
                 })
                 .catch((error) => {
@@ -46,7 +45,6 @@ const authService = {
             const api = new ApiService();
             api.postData("tutor/register", tutorData)
                 .then((data) => {
-                    console.log(data);
                     resolve(data);
                 })
                 .catch((error) => {
