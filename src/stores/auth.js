@@ -72,7 +72,7 @@ export const useAuthStore = defineStore('auth', () => {
             .catch((err) => {
                 error.value = err.data?.message || err.message || "Error al registrar estudiante.";
                 // Si quiero acceder a los detalles del error entonces uso err.data
-                console.log(JSON.stringify(err.data.errors))
+                // console.log(JSON.stringify(err.data.errors))
                 return false;
             })
             .finally(() => {
