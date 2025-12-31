@@ -104,20 +104,22 @@ onMounted(() => {
           : 'flex flex-col md:flex-row md:items-center hover:-translate-x-1'"
           @click="router.push(routes.studentForm(formulario.id))"
       >
+        <!-- Decorative Arrow for Grid View -->
         <div v-if="viewMode === 'grid'"
              class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
           <i class="ph ph-arrow-right text-6xl text-indigo-600 -rotate-45 group-hover:rotate-0 transition-transform duration-500"></i>
         </div>
+        <!-- Form Info -->
+        <div class="relative z-10 flex-1" :class="viewMode === 'list' ? 'flex items-center gap-6' : 'mb-6'">
 
-        <div class="relative z-10 flex-1"
-             :class="viewMode === 'list' ? 'flex items-center gap-6' : 'mb-6'">
-
+          <!-- Icon -->
           <div
               class="bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shrink-0"
               :class="viewMode === 'grid' ? 'w-12 h-12 mb-4' : 'w-14 h-14'">
             <i class="ph ph-clipboard-text text-2xl"></i>
           </div>
 
+          <!-- Form Name and Description -->
           <div>
             <h2 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-700 transition-colors">
               {{ formulario.nombre }}
@@ -126,15 +128,23 @@ onMounted(() => {
                :class="viewMode === 'grid' ? 'line-clamp-3' : 'line-clamp-1 pr-4'">
               {{ formulario.descripcion || "Sin descripción disponible." }}
             </p>
+
+            <!-- Attempts count -->
+            <div v-if="formulario.intentos_count > 0" class="mt-2 text-sm text-gray-400">
+              Has intentado completar este formulario {{ formulario.intentos_count }}
+              {{ formulario.intentos_count === 1 ? 'vez' : 'veces' }}.
+            </div>
           </div>
         </div>
 
+
+        <!-- Action Button -->
         <div class="relative z-10" :class="viewMode === 'grid' ? 'mt-auto' : 'mt-4 md:mt-0 md:w-auto'">
           <button
               class="py-3 px-4 bg-gray-50 text-indigo-600 font-bold rounded-xl border border-gray-100 group-hover:bg-indigo-600 group-hover:text-white group-hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2"
               :class="viewMode === 'grid' ? 'w-full' : 'w-full md:w-auto whitespace-nowrap'"
           >
-            <span v-if="viewMode === 'grid'">Completar ahora</span>
+            <span v-if="viewMode === 'grid' ">Completar ahora</span>
             <span v-else>Completar</span>
             <i class="ph ph-caret-right text-lg"></i>
           </button>

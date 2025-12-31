@@ -41,7 +41,7 @@ const tutorGroupHasStudentsService = {
     getFormResultsByStudentId: async (studentId, formId) => {
         return new Promise((resolve, reject) => {
             const api = new ApiService();
-            api.fetchData(`tutor/students/${studentId}/form/${formId}/interpretations`) // tutor/students/3/form/4/interpretations
+            api.fetchData(`tutor/students/${studentId}/forms/${formId}/interpretations`) // tutor/students/3/form/4/interpretations
                 .then((data) => {
                     resolve(data);
                 })
