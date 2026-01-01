@@ -4,7 +4,7 @@ class ApiService {
     // API_URL = import.meta.env.VITE_API_URL;
     //API_URL = 'http://192.168.1.79:8000/api';
     // API_URL = 'http://localhost:8000/api';
-    API_URL = import.meta.env.VITE_API_URL || 'https://iese-salud-api.onrender.com';
+    API_URL = import.meta.env.VITE_API_URL || 'https://iese-salud-api.onrender.com/api';
 
     async fetchData(endpoint) {
         try {
@@ -13,7 +13,6 @@ class ApiService {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
                     'authorization': `Bearer ${localStorage.getItem('auth_token') || ''}`
                 }
             });
