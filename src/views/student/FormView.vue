@@ -365,8 +365,7 @@ onMounted(() => {
             <div class="border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50/30 p-8">
               <h3 class="text-xl font-bold text-gray-900 mb-2">Finalizar</h3>
               <p class="text-gray-600 mb-6 leading-relaxed">¿Todo listo? Envía tus respuestas.</p>
-              <button @click="submitForm"
-                      class="w-full flex justify-center items-center px-6 py-4 border border-transparent text-lg font-bold rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg transform transition-all active:scale-[0.98]">
+              <button class="w-full flex justify-center items-center px-6 py-4 border border-transparent text-lg font-bold rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg transform transition-all active:scale-[0.98]">
                 Enviar Formulario Ahora
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
