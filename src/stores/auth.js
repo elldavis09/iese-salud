@@ -4,7 +4,7 @@ import authService from '../services/authService.js';
 
 export const useAuthStore = defineStore('auth', () => {
     const user = ref(null);
-    const token = ref(localStorage.getItem('auth_token') || null);
+    const token = ref(null);//localStorage.getItem('auth_token') || null
     const isLoading = ref(false);
     const error = ref(null);
     const message = ref(null);
