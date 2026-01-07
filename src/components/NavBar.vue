@@ -2,9 +2,11 @@
 <script setup>
 import {useRouter} from 'vue-router';
 import {useAuthStore} from '../stores/auth.js';
+import {ref} from "vue";
 
 const store = useAuthStore();
 const router = useRouter();
+const isMobileMenuOpen = ref(false);
 
 const handleLogout = () => {
   store.logout();
