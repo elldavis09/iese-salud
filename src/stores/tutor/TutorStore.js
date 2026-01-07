@@ -7,6 +7,7 @@ export const useTutorGrupoHasStudentsStore = defineStore('tutorGrupoHasStudents'
     const students = ref([]);
     const student = ref([]);
     const interpretaciones = ref([]);
+    const attemptId = ref(null);
 
     const isLoading = ref(false);
     const error = ref(null);
@@ -59,6 +60,7 @@ export const useTutorGrupoHasStudentsStore = defineStore('tutorGrupoHasStudents'
         try {
             const data = await tutorGroupHasStudentsService.getFormResultsByStudentId(studentId, formId);
             interpretaciones.value = data.data.interpretaciones;
+            attemptId.value = data.data.intento;
             console.log(data.data);
         } catch (err) {
             error.value = err.message || 'Error fetching form results';
@@ -73,6 +75,7 @@ export const useTutorGrupoHasStudentsStore = defineStore('tutorGrupoHasStudents'
         students,
         student,
         interpretaciones,
+        attemptId,
         isLoading,
         error,
         fetchGroups,

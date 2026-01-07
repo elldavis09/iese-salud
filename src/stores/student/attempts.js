@@ -2,7 +2,7 @@ import attemptsService from "@/services/student/attemptsService.js";
 import {defineStore} from "pinia";
 import {ref} from "vue";
 
-export const useAttemptsStore 
+export const useAttemptsStore
     = defineStore('attempts', () => {
     const attempts = ref([]);
     const attemptsMessage = ref(null);
@@ -58,5 +58,8 @@ export const useAttemptsStore
         attemptsMessage,
         attemptsError,
         attemptsIsLoading,
-        getFormsAttempts, getAttemptResponses, deleteFormAttempt };
+        getFormsAttempts,
+        getAttemptResponses,
+        deleteFormAttempt
+    };
 });
