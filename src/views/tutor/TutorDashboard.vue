@@ -154,6 +154,7 @@ onUpdated(refreshIcons);
             <TutorResultsView 
               :selectedStudent="selectedStudent" 
               :selectedTest="selectedTest"
+              :selectedGroup="selectedGroup"
             />
           </div>
 

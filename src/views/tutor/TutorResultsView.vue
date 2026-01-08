@@ -5,6 +5,7 @@ import {storeToRefs} from "pinia";
 import {useFormStore} from "@/stores/tutor/form.js";
 import {useAttemptsStore} from "@/stores/tutor/attempts.js";
 import ReadOnlyQuestion from "@/components/ReadOnlyQuestion.vue";
+import {routes} from "@/router/routes.js";
 
 const tutorStore = useTutorGrupoHasStudentsStore();
 const formStore = useFormStore();
@@ -21,7 +22,8 @@ const respuestas = ref({});
 const props = defineProps(
     {
       selectedStudent: Object,
-      selectedTest: Object
+      selectedTest: Object,
+      selectedGroup: Object
     }
 );
 const selectedStudent = props.selectedStudent;
@@ -102,7 +104,8 @@ onMounted(() => {
             </div>
           </div>
 
-          <div class="flex-1 bg-slate-50 p-4 rounded-xl border border-gray-100 text-sm text-gray-600 leading-relaxed mb-6">
+          <div
+              class="flex-1 bg-slate-50 p-4 rounded-xl border border-gray-100 text-sm text-gray-600 leading-relaxed mb-6">
             {{ inter?.descripcion || "Sin descripción disponible." }}
           </div>
 
@@ -120,6 +123,7 @@ onMounted(() => {
       </div>
     </section>
 
+    <!-- Detalles de Respuestas -->
     <section class="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
 
       <div
@@ -138,8 +142,9 @@ onMounted(() => {
           </div>
         </div>
 
-        <button class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500 transition-transform duration-300"
-                :class="showDetails ? 'rotate-180 bg-gray-100' : ''">
+        <button
+            class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500 transition-transform duration-300"
+            :class="showDetails ? 'rotate-180 bg-gray-100' : ''">
           <i class="ph ph-caret-down text-xl"></i>
         </button>
       </div>
@@ -150,7 +155,8 @@ onMounted(() => {
           <div v-for="(seccion, index) in formData?.secciones || []" :key="seccion.id" class="p-6 md:p-8">
 
             <div class="flex items-center gap-3 mb-6">
-              <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 text-gray-600 text-sm font-bold flex items-center justify-center">
+              <span
+                  class="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 text-gray-600 text-sm font-bold flex items-center justify-center">
                 {{ index + 1 }}
               </span>
               <h3 class="text-lg font-bold text-gray-800">{{ seccion.titulo }}</h3>
@@ -173,6 +179,16 @@ onMounted(() => {
       </div>
 
     </section>
+
+    <!-- Boton para abrir una ruta -->
+    <div class="flex justify-end">
+      <button
+          @click="$router.push(routes.tutorGroupFormAnalytics(selectedGroup.id, formSelected.id))"
+          class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold shadow-md shadow-indigo-200 hover:bg-indigo-700 transition-colors flex items-center gap-2"
+      >
+        Ver Análisis Grupal
+      </button>
+    </div>
 
   </div>
 </template>

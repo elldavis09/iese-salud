@@ -9,4 +9,5 @@ export const routes = {
     studentForm: (id) => `/student/forms/${id}`,
     studentFormResults: (formId, attemptId) => `/student/forms/${formId}/attempts/${attemptId}/results`,
     tutorDashboard: '/tutor/dashboard',
+    tutorGroupFormAnalytics: (groupId, formId) => `/tutor/groups/${groupId}/forms/${formId}/analytics`,
 };
