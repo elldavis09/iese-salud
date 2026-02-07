@@ -1,8 +1,8 @@
 import {defineStore} from "pinia";
-import tutorGroupHasStudentsService from "@/services/tutor/TutorGroupHasStudentsService.js";
+import {fetchGroups as fetchGroupsUseCase} from "@/usecases/tutor/fetchGroups.js";
 import {ref} from "vue";
 
-export const useGroupsStore
+export const useFetchGroups
     = defineStore('tutor-groups', () => {
         const groups = ref(null);
         const isLoading = ref(false);
@@ -12,16 +12,15 @@ export const useGroupsStore
         isLoading.value = true;
         error.value = null;
         try {
-            const data = await tutorGroupHasStudentsService.getAllGroups();
-            console.log(data);
-            groups.value = data.data;
-            return true;
+            groups.value = await fetchGroupsUseCase();
         } catch (err) {
             error.value = 'Error: ' + err.message || 'Error fetching groups';
         } finally {
             isLoading.value = false;
         }
     }
+
+
 
     return {
         groups,

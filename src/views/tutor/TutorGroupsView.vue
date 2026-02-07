@@ -1,11 +1,12 @@
 <script setup>
 import {onMounted} from "vue";
-import {useGroupsStore} from "@/stores/tutor/groups.js";
+import {useFetchGroups} from "@/stores/tutor/useFetchGroups.js";
 import {storeToRefs} from "pinia";
 
 // --- STORES ---
-const groupsStore = useGroupsStore()
-const { groups, isLoading: groupsLoading} = storeToRefs(groupsStore);
+const fetchGroups = useFetchGroups();
+const {fetchGroups: fetch} = fetchGroups;
+const { groups, isLoading: groupsLoading} = storeToRefs(fetchGroups);
 
 // --- EMITS ---
 const emit = defineEmits(['groupSelected']);
@@ -15,7 +16,7 @@ const selectGroup = (group) => {
 
 // --- LIFECYCLE ---
 onMounted(() => {
-  groupsStore.fetchGroups();
+  fetch();
 })
 
 </script>
