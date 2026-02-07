@@ -1,10 +1,7 @@
 // En esta clase se define la lógica para interactuar con una API externa.
 
 class ApiService {
-    // API_URL = import.meta.env.VITE_API_URL;
-    //API_URL = 'http://192.168.1.79:8000/api';
-    // API_URL = 'http://localhost:8000/api';
-    API_URL = import.meta.env.VITE_API_URL || 'https://iese-salud-api.onrender.com/api';
+    API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
     async fetchData(endpoint) {
         try {
