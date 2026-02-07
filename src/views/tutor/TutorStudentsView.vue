@@ -1,9 +1,13 @@
 <script setup>
-import { computed, onMounted } from "vue";
-import { useTutorGrupoHasStudentsStore } from "@/stores/tutor/TutorStore.js";
+import {computed, onMounted} from "vue";
+import {useTutorGrupoHasStudentsStore} from "@/stores/tutor/TutorStore.js";
+import {useFetchStudentsByGroupId} from "@/stores/tutor/useFetchStudentsByGroupId.js";
+import {storeToRefs} from "pinia";
 
 // --- STORES ---
-const tutorGrupoHasStudentsStore = useTutorGrupoHasStudentsStore();
+const fetchStudentsByGroupId = useFetchStudentsByGroupId();
+const {fetchStudentsByGroupId: fetch} = fetchStudentsByGroupId;
+const {students, isLoading, error} = storeToRefs(fetchStudentsByGroupId);
 
 // --- PROPS ---
 const props = defineProps({
@@ -14,41 +18,31 @@ const props = defineProps({
 })
 
 const selectedGroup = computed(() => {
-  return { id: props.groupId };
+  return {id: props.groupId};
 });
 
-// Helpers de estilo
-const getStatusClass = (status) => {
-  const map = {
-    completed: "bg-green-100 text-green-700 border-green-200",
-    active: "bg-emerald-100 text-emerald-700 border-emerald-200",
-    warning: "bg-orange-100 text-orange-700 border-orange-200",
-    danger: "bg-red-100 text-red-700 border-red-200"
-  };
-  return map[status] || "bg-gray-100 text-gray-600";
-};
-
-const getStatusLabel = (status) => {
-  const map = { active: "Activo", warning: "Riesgo", danger: "Crítico", completed: "Completado" };
-  return map[status] || status;
-};
-
+// --- EMITS ---
 const emit = defineEmits(['handleStudentClick']);
 const handleStudentClick = (student) => {
   emit('handledStudentClick', student);
 };
 
 onMounted(() => {
-  tutorGrupoHasStudentsStore.fetchStudentsByGroupId(selectedGroup.value.id);
-  console.log(tutorGrupoHasStudentsStore.students);
+  fetch(selectedGroup.value.id);
 });
 </script>
 
- <template>
-  <div>
+<template>
+  <div v-if="isLoading">
+    <p>Cargando estudiantes...</p>
+  </div>
+  <div v-else-if="error">
+    <p>Error al cargar estudiantes: {{ error }}</p>
+  </div>
+  <div v-else>
     <h1>Lista de Alumnos</h1>
-    <div v-for="student in tutorGrupoHasStudentsStore.students" :key="student.id" @click="handleStudentClick(student)"
-      class="p-4 mb-4 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50">
+    <div v-for="student in students" :key="student.id" @click="handleStudentClick(student)"
+         class="p-4 mb-4 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50">
       <p>Estado activo: {{ student?.activo ?? 'Sin estado' }}</p>
       <p>Iniciales: {{ student?.initials ?? 'Sin iniciales' }}</p>
       <p>Nombre completo: {{ student?.full_name ?? 'Sin nombre' }}</p>
