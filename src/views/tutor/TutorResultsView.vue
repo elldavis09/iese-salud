@@ -58,8 +58,7 @@ watch(answers, (responses) => {
 
         });
       }
-    }
-);
+    });
 
 onMounted(() => {
   attemptsStore.clearAnswers();
