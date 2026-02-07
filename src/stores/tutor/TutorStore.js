@@ -2,7 +2,8 @@ import {ref} from "vue";
 import {defineStore} from "pinia";
 import tutorGroupHasStudentsService from "@/services/tutor/TutorGroupHasStudentsService.js";
 
-export const useTutorGrupoHasStudentsStore = defineStore('tutorGrupoHasStudents', () => {
+export const useTutorGrupoHasStudentsStore
+    = defineStore('tutorGrupoHasStudents', () => {
     const groups = ref([]);
     const students = ref([]);
     const student = ref([]);
@@ -12,7 +13,7 @@ export const useTutorGrupoHasStudentsStore = defineStore('tutorGrupoHasStudents'
     const isLoading = ref(false);
     const error = ref(null);
 
-    const fetchGroups = async () => {
+    /*const fetchGroups = async () => {
         isLoading.value = true;
         error.value = null;
         try {
@@ -26,7 +27,7 @@ export const useTutorGrupoHasStudentsStore = defineStore('tutorGrupoHasStudents'
             isLoading.value = false;
         }
     }
-
+*/
     const fetchStudentsByGroupId = async (groupId) => {
         isLoading.value = true;
         error.value = null;
@@ -78,7 +79,7 @@ export const useTutorGrupoHasStudentsStore = defineStore('tutorGrupoHasStudents'
         attemptId,
         isLoading,
         error,
-        fetchGroups,
+        // fetchGroups,
         fetchStudentsByGroupId,
         fetchDataStudentById,
         fetchFormResultsByStudentId
