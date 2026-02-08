@@ -2,6 +2,7 @@ import {defineStore} from "pinia";
 import {ref} from "vue";
 import {fetchFormResultsByStudentId as fetchFormResultByStudentIdUseCase} from "@/usecases/tutor/fetchFormResultsByStudentId.js";
 import {fetchFormContent as fetchFormContentUseCase} from "@/usecases/tutor/fetchFormContent.js";
+import {fetchAnswersByAttempt as fetchAnswersByAttemptUseCase} from "@/usecases/tutor/fetchAnswersByAttempt.js";
 
 export const tutorResultsStore
     = defineStore(
@@ -14,6 +15,10 @@ export const tutorResultsStore
         const formContent = ref(null);
         const formContentIsLoading = ref(false);
         const formContentError = ref(null);
+
+        const answers = ref([]);
+        const answersIsLoading = ref(false);
+        const answersError = ref(null);
 
         const fetchFormResultsByStudentId = async (studentId, formId) => {
             isLoading.value = true;
@@ -42,6 +47,19 @@ export const tutorResultsStore
             }
         }
 
+        const fetchAnswers = async (attemptId) => {
+            answersIsLoading.value = true;
+            answersError.value = null;
+            try {
+                // const response = await attemptService.getAnswersByAttemptId(attemptId);
+                answers.value = await fetchAnswersByAttemptUseCase(attemptId);
+            } catch (err) {
+                answersError.value = err;
+            } finally {
+                answersIsLoading.value = false;
+            }
+        }
+
         return {
             interpretaciones,
             attemptId,
@@ -51,7 +69,11 @@ export const tutorResultsStore
             formContent,
             formContentIsLoading,
             formContentError,
-            fetchFormContent
+            fetchFormContent,
+            answers,
+            answersIsLoading,
+            answersError,
+            fetchAnswers
         };
     }
 );

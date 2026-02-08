@@ -1,20 +1,18 @@
 <script setup>
 import {onMounted, ref, watch} from "vue";
 import {storeToRefs} from "pinia";
-import {useAttemptsStore} from "@/stores/tutor/attempts.js";
 import ReadOnlyQuestion from "@/components/ReadOnlyQuestion.vue";
 import {routes} from "@/router/routes.js";
 import {tutorResultsStore} from "@/stores/tutor/TutorResultsStore.js";
 
 const tutorResultsStr = tutorResultsStore();
-const attemptsStore = useAttemptsStore();
 
 const {fetchFormResultsByStudentId: fetchFormResults} = tutorResultsStr;
 const {interpretaciones, attemptId, error, isLoading} = storeToRefs(tutorResultsStr);
 const {fetchFormContent} = tutorResultsStr;
 const {formContent, formContentIsLoading, formContentError} = storeToRefs(tutorResultsStr);
-
-const {answers} = storeToRefs(attemptsStore);
+const {fetchAnswers} = tutorResultsStr;
+const {answers, answersIsLoading, answersError} = storeToRefs(tutorResultsStr);
 
 // Estado para colapsar/expandir las respuestas
 const showDetails = ref(false);
@@ -33,7 +31,7 @@ const formSelected = props.selectedTest;
 watch(attemptId, (newAttemptId) => {
   console.log("New attempt ID:", newAttemptId);
   if (newAttemptId) {
-    attemptsStore.fetchAnswers(newAttemptId);
+    fetchAnswers(newAttemptId);
   }
 });
 
