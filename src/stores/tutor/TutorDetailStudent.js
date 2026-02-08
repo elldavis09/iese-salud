@@ -2,8 +2,8 @@ import {defineStore} from "pinia";
 import {ref} from "vue";
 import {fetchDataStudentById as fetchDataStudentByIdUseCase} from "@/usecases/tutor/fetchDataStudentById.js";
 
-export const useFetchDataStudentById
-    = defineStore('tutorGrupoHasStudents', () => {
+export const tutorDetailStudent
+    = defineStore('tutorDetailStudent', () => {
         const userData = ref(null);
         const isLoading = ref(false);
         const error = ref(null);

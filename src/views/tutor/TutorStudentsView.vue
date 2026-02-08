@@ -1,12 +1,12 @@
 <script setup>
 import {computed, onMounted} from "vue";
-import {useFetchStudentsByGroupId} from "@/stores/tutor/groups/useFetchStudentsByGroupId.js";
+import {tutorStudentsStore} from "@/stores/tutor/TutorStudentsStore.js";
 import {storeToRefs} from "pinia";
 
 // --- STORES ---
-const fetchStudentsByGroupId = useFetchStudentsByGroupId();
-const {fetchStudentsByGroupId: fetch} = fetchStudentsByGroupId;
-const {students, isLoading, error} = storeToRefs(fetchStudentsByGroupId);
+const tutorStudentsStr = tutorStudentsStore();
+const {fetchStudentsByGroupId: fetch} = tutorStudentsStr;
+const {students, isLoading, error} = storeToRefs(tutorStudentsStr);
 
 // --- PROPS ---
 const props = defineProps({

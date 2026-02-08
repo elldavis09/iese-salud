@@ -4,8 +4,8 @@ import {fetchStudentsByGroupId as fetchStudentsUseCase} from "@/usecases/tutor/f
 
 // import tutorGroupHasStudentsService from "@/services/tutor/TutorGroupHasStudentsService.js";
 
-export const useFetchStudentsByGroupId
-    = defineStore('fetchStudentsByGroupId', () => {
+export const tutorStudentsStore
+    = defineStore('tutorStudentsStore', () => {
     const students = ref([]);
     const isLoading = ref(false);
     const error = ref(null);

@@ -5,14 +5,14 @@ import {useFormStore} from "@/stores/tutor/form.js";
 import {useAttemptsStore} from "@/stores/tutor/attempts.js";
 import ReadOnlyQuestion from "@/components/ReadOnlyQuestion.vue";
 import {routes} from "@/router/routes.js";
-import {useFetchFormResultsByStudentId} from "@/stores/tutor/forms/useFetchFormResultsByStudentId.js";
+import {tutorResultsStore} from "@/stores/tutor/TutorResultsStore.js";
 
-const fetchFormResultsByStudentId = useFetchFormResultsByStudentId();
+const tutorResultsStr = tutorResultsStore();
 const formStore = useFormStore();
 const attemptsStore = useAttemptsStore();
 
-const {interpretaciones, attemptId, error, isLoading} = storeToRefs(fetchFormResultsByStudentId);
-const {fetchFormResultsByStudentId: fetchFormResults} = fetchFormResultsByStudentId;
+const {fetchFormResultsByStudentId: fetchFormResults} = tutorResultsStr;
+const {interpretaciones, attemptId, error, isLoading} = storeToRefs(tutorResultsStr);
 
 const {answers} = storeToRefs(attemptsStore);
 const {formData} = storeToRefs(formStore);

@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import {ref} from "vue";
 import {fetchFormResultsByStudentId as fetchFormResultByStudentIdUseCase} from "@/usecases/tutor/fetchFormResultsByStudentId.js";
 
-export const useFetchFormResultsByStudentId
+export const tutorResultsStore
     = defineStore(
     'fetchFormResultsByStudentId', () => {
         const interpretaciones = ref([]);

@@ -2,14 +2,14 @@
 import {onMounted} from "vue";
 import {storeToRefs} from "pinia";
 import {useFormsStore} from "@/stores/tutor/forms.js";
-import {useFetchDataStudentById} from "@/stores/tutor/students/useFetchDataStudentById.js";
+import {tutorDetailStudent} from "@/stores/tutor/TutorDetailStudent.js";
 
 // const tutorGrupoHasStudentsStore = useTutorGrupoHasStudentsStore();
 
 // Desestructuramos el store para obtener solo lo necesario
-const fetchDataStudentById = useFetchDataStudentById();
-const { fetchDataStudentById: fetch } = fetchDataStudentById
-const { userData, isLoading, error} = storeToRefs(fetchDataStudentById);
+const tutorDetailStudentStr = tutorDetailStudent();
+const { fetchDataStudentById: fetch } = tutorDetailStudentStr
+const { userData, isLoading, error} = storeToRefs(tutorDetailStudentStr);
 
 const formsStore = useFormsStore();
 const {forms} = storeToRefs(formsStore);

@@ -2,8 +2,8 @@ import {defineStore} from "pinia";
 import {fetchGroups as fetchGroupsUseCase} from "@/usecases/tutor/fetchGroups.js";
 import {ref} from "vue";
 
-export const useFetchGroups
-    = defineStore('tutor-groups', () => {
+export const tutorGroupsStore
+    = defineStore('tutorGroupsStore', () => {
         const groups = ref(null);
         const isLoading = ref(false);
         const error = ref(null);
