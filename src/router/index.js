@@ -7,7 +7,7 @@ import ForgotPasswordView from '../views/Auth/ForgotPasswordView.vue';
 import FormView from '@/views/student/FormView.vue';
 import InterpretacionView from "@/views/student/InterpretacionView.vue";
 import TutorDashboard from "@/views/tutor/TutorDashboard.vue";
-import {useUserStore} from "@/stores/user.js";
+import {userStore} from "@/stores/userStore.js";
 import FormAnalyticsView from "@/views/tutor/FormAnalyticsView.vue";
 
 const router = createRouter({
@@ -28,15 +28,15 @@ const router = createRouter({
 // Guard de navegación
 router.beforeEach(async (to, from, next) => {
     const auth = useAuthStore();
-    const userStore = useUserStore();
+    const userStr = userStore();
 
     await auth.initializeAuth();
 
     if (to.meta.requiresAuth && !auth.isAuthenticated) {
         next('/login');
     } else if (to.meta.guest && auth.isAuthenticated) {
-        await userStore.fetchUserData();
-        if (userStore.role === 'tutor') {
+        await userStr.fetchUserData();
+        if (userStr.role === 'tutor') {
             next('/tutor/dashboard');
         } else {
             next('/student/dashboard');

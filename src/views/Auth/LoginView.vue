@@ -1,13 +1,13 @@
 <script setup>
-import {onMounted, reactive} from 'vue';
+import {reactive} from 'vue';
 import {useRouter} from 'vue-router';
 import {storeToRefs} from 'pinia';
 import {useAuthStore} from '@/stores/auth.js';
-import {useUserStore} from "@/stores/user.js";
+import {userStore} from "@/stores/userStore.js";
 import {routes} from "@/router/routes.js";
 
 const auth = useAuthStore();
-const user = useUserStore();
+const user = userStore();
 const router = useRouter();
 
 const form = reactive({email: '', password: ''});

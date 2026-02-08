@@ -1,8 +1,8 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
-import userService from "@/services/userService.js";
+import {fetchUser as fetchUserUseCase} from "@/usecases/auth/fetchUser.js";
 
-export const useUserStore = defineStore('user', () => {
+export const userStore = defineStore('userStore', () => {
     const user = ref(null);
     const role = ref('student');
     const isLoading = ref(false);
@@ -14,10 +14,11 @@ export const useUserStore = defineStore('user', () => {
         error.value = null;
         messages.value = null;
         try {
-            const data = await userService.getUser();
+            // const data = await userService.getUser();
+            const data = await fetchUserUseCase();
             messages.value = data.message;
-            user.value = data.data;
-            role.value = data.data?.rol?.nombre || 'student';
+            user.value = data;
+            role.value = data?.rol?.nombre || 'student';
         } catch (err) {
             error.value = err.message || "Error al cargar los datos del usuario.";
         } finally {
