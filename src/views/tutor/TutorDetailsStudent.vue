@@ -1,18 +1,15 @@
 <script setup>
 import {onMounted} from "vue";
 import {storeToRefs} from "pinia";
-import {useFormsStore} from "@/stores/tutor/forms.js";
-import {tutorDetailStudent} from "@/stores/tutor/TutorDetailStudent.js";
+import {tutorDetailStudentStore} from "@/stores/tutor/TutorDetailStudentStore.js";
 
-// const tutorGrupoHasStudentsStore = useTutorGrupoHasStudentsStore();
 
 // Desestructuramos el store para obtener solo lo necesario
-const tutorDetailStudentStr = tutorDetailStudent();
-const { fetchDataStudentById: fetch } = tutorDetailStudentStr
+const tutorDetailStudentStr = tutorDetailStudentStore();
+const { fetchDataStudentById } = tutorDetailStudentStr
 const { userData, isLoading, error} = storeToRefs(tutorDetailStudentStr);
-
-const formsStore = useFormsStore();
-const {forms} = storeToRefs(formsStore);
+const { fetchFormsFromUser } = tutorDetailStudentStr;
+const { forms, formsIsLoading, formsError } = storeToRefs(tutorDetailStudentStr);
 
 const emit = defineEmits(['handledTestClick']);
 const props = defineProps(
@@ -41,9 +38,8 @@ const handleTestClick = (test) => {
 };
 
 onMounted(() => {
-  //tutorGrupoHasStudentsStore.fetchDataStudentById(props.selectedGroupId, props.selectedStudentId);
-  fetch(props.selectedGroupId, props.selectedStudentId);
-  formsStore.getFormsFromUser(props.selectedStudentId);
+  fetchDataStudentById(props.selectedGroupId, props.selectedStudentId);
+  fetchFormsFromUser(props.selectedStudentId)
 });
 </script>
 

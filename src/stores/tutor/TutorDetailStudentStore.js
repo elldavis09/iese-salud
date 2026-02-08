@@ -1,12 +1,17 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
 import {fetchDataStudentById as fetchDataStudentByIdUseCase} from "@/usecases/tutor/fetchDataStudentById.js";
+import {fetchFormsFromUser as fetchFormFromUserUseCase} from "@/usecases/tutor/fetchFormsFromUser.js";
 
-export const tutorDetailStudent
-    = defineStore('tutorDetailStudent', () => {
+export const tutorDetailStudentStore
+    = defineStore('tutorDetailStudentStore', () => {
         const userData = ref(null);
         const isLoading = ref(false);
         const error = ref(null);
+
+        const forms = ref([]);
+        const formsIsLoading = ref(false);
+        const formsError = ref(null);
 
         const fetchDataStudentById = async (groupId, studentId) => {
             isLoading.value = true;
@@ -22,11 +27,27 @@ export const tutorDetailStudent
             }
         }
 
+    async function fetchFormsFromUser(userId) {
+        formsIsLoading.value = true;
+        formsError.value = null;
+        try {
+            forms.value = await fetchFormFromUserUseCase(userId)
+        } catch (err) {
+            formsError.value = err.message || "Error al obtener los formularios.";
+        } finally {
+            formsIsLoading.value = false;
+        }
+    }
+
         return {
             userData,
             isLoading,
             error,
-            fetchDataStudentById
+            fetchDataStudentById,
+            forms,
+            formsIsLoading,
+            formsError,
+            fetchFormsFromUser,
         }
     }
 );
