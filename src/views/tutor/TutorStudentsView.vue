@@ -1,7 +1,6 @@
 <script setup>
 import {computed, onMounted} from "vue";
-import {useTutorGrupoHasStudentsStore} from "@/stores/tutor/TutorStore.js";
-import {useFetchStudentsByGroupId} from "@/stores/tutor/useFetchStudentsByGroupId.js";
+import {useFetchStudentsByGroupId} from "@/stores/tutor/groups/useFetchStudentsByGroupId.js";
 import {storeToRefs} from "pinia";
 
 // --- STORES ---

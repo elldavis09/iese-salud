@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted} from "vue";
-import {useFetchGroups} from "@/stores/tutor/useFetchGroups.js";
+import {useFetchGroups} from "@/stores/tutor/groups/useFetchGroups.js";
 import {storeToRefs} from "pinia";
 
 // --- STORES ---

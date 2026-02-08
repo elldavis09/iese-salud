@@ -1,11 +1,11 @@
 <script setup>
-import {computed, onMounted, ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {storeToRefs} from "pinia";
 import {useFormStore} from "@/stores/tutor/form.js";
 import {useAttemptsStore} from "@/stores/tutor/attempts.js";
 import ReadOnlyQuestion from "@/components/ReadOnlyQuestion.vue";
 import {routes} from "@/router/routes.js";
-import {useFetchFormResultsByStudentId} from "@/stores/tutor/useFetchFormResultsByStudentId.js";
+import {useFetchFormResultsByStudentId} from "@/stores/tutor/forms/useFetchFormResultsByStudentId.js";
 
 const fetchFormResultsByStudentId = useFetchFormResultsByStudentId();
 const formStore = useFormStore();
