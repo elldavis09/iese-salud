@@ -1,8 +1,8 @@
 <script setup>
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { storeToRefs } from "pinia";
-import { useAnalyticsStore } from "@/stores/tutor/analytics.js";
+import {onMounted, ref} from 'vue';
+import {useRoute} from 'vue-router';
+import {storeToRefs} from "pinia";
+import {tutorFormAnalyticStore} from "@/stores/tutor/TutorFormAnalyticStore.js";
 import GroupResultsUI from "@/components/GroupResultsUI.vue";
 
 // IMPORTAMOS EL COMPONENTE VISUAL
@@ -12,23 +12,16 @@ const group = ref(route.params.group);
 const form = ref(route.params.form);
 
 // 1. Inicializar el Store correctamente (useAnalyticsStore es una función)
-const analyticsStore = useAnalyticsStore();
+const tutorFormAnalyticStr = tutorFormAnalyticStore();
 
 // 2. Extraer datos reactivos y acciones
-// Asumo que tienes un 'isLoading' en tu store, si no, usa el ref local de abajo.
-const { formAnalytics } = storeToRefs(analyticsStore);
-
-// Estado de carga local (por seguridad)
-const isLoading = ref(true);
-const error = ref(null);
+const {formAnalytics, isLoading, error} = storeToRefs(tutorFormAnalyticStr);
+const {fetchAnalyticsByForm} = tutorFormAnalyticStr;
 
 onMounted(async () => {
   isLoading.value = true;
   try {
-    console.log('Fetching analytics for Group:', group.value, 'Form:', form.value);
-
-    // await analyticsStore.fetchFormAnalytics(2, 2);
-    await analyticsStore.fetchFormAnalytics(group.value, form.value);
+    await fetchAnalyticsByForm(group.value, form.value);
 
   } catch (err) {
     console.error("Error cargando analíticas:", err);
@@ -59,7 +52,7 @@ onMounted(async () => {
       <p>No hay datos disponibles para este formulario.</p>
     </div>
 
-    <GroupResultsUI v-else :stats="formAnalytics" />
+    <GroupResultsUI v-else :stats="formAnalytics"/>
 
   </div>
 </template>
