@@ -1,17 +1,19 @@
 <script setup>
 import {computed, onMounted, ref, watch} from "vue";
-import {useTutorGrupoHasStudentsStore} from "@/stores/tutor/TutorStore.js";
 import {storeToRefs} from "pinia";
 import {useFormStore} from "@/stores/tutor/form.js";
 import {useAttemptsStore} from "@/stores/tutor/attempts.js";
 import ReadOnlyQuestion from "@/components/ReadOnlyQuestion.vue";
 import {routes} from "@/router/routes.js";
+import {useFetchFormResultsByStudentId} from "@/stores/tutor/useFetchFormResultsByStudentId.js";
 
-const tutorStore = useTutorGrupoHasStudentsStore();
+const fetchFormResultsByStudentId = useFetchFormResultsByStudentId();
 const formStore = useFormStore();
 const attemptsStore = useAttemptsStore();
 
-const {attemptId} = storeToRefs(tutorStore);
+const {interpretaciones, attemptId, error, isLoading} = storeToRefs(fetchFormResultsByStudentId);
+const {fetchFormResultsByStudentId: fetchFormResults} = fetchFormResultsByStudentId;
+
 const {answers} = storeToRefs(attemptsStore);
 const {formData} = storeToRefs(formStore);
 
@@ -61,9 +63,7 @@ watch(answers, (responses) => {
     });
 
 onMounted(() => {
-  attemptsStore.clearAnswers();
-  formStore.clearFormData();
-  tutorStore.fetchFormResultsByStudentId(selectedStudent?.id, formSelected?.id);
+  fetchFormResults(selectedStudent?.id, formSelected?.id);
   formStore.fetchFormData(formSelected?.id);
 });
 
@@ -87,7 +87,7 @@ onMounted(() => {
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div
-            v-for="inter in tutorStore.interpretaciones ?? []"
+            v-for="inter in interpretaciones ?? []"
             :key="inter.id"
             class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 flex flex-col hover:border-indigo-300 transition-colors"
         >
