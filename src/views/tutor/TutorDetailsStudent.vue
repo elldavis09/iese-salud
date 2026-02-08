@@ -1,12 +1,17 @@
 <script setup>
 import {onMounted} from "vue";
-import {useTutorGrupoHasStudentsStore} from "@/stores/tutor/TutorStore.js";
 import {storeToRefs} from "pinia";
 import {useFormsStore} from "@/stores/tutor/forms.js";
+import {useFetchDataStudentById} from "@/stores/tutor/useFetchDataStudentById.js";
 
-const tutorGrupoHasStudentsStore = useTutorGrupoHasStudentsStore();
+// const tutorGrupoHasStudentsStore = useTutorGrupoHasStudentsStore();
+
+// Desestructuramos el store para obtener solo lo necesario
+const fetchDataStudentById = useFetchDataStudentById();
+const { fetchDataStudentById: fetch } = fetchDataStudentById
+const { userData, isLoading, error} = storeToRefs(fetchDataStudentById);
+
 const formsStore = useFormsStore();
-
 const {forms} = storeToRefs(formsStore);
 
 const emit = defineEmits(['handledTestClick']);
@@ -36,7 +41,8 @@ const handleTestClick = (test) => {
 };
 
 onMounted(() => {
-  tutorGrupoHasStudentsStore.fetchDataStudentById(props.selectedGroupId, props.selectedStudentId);
+  //tutorGrupoHasStudentsStore.fetchDataStudentById(props.selectedGroupId, props.selectedStudentId);
+  fetch(props.selectedGroupId, props.selectedStudentId);
   formsStore.getFormsFromUser(props.selectedStudentId);
 });
 </script>
@@ -45,13 +51,13 @@ onMounted(() => {
   <div>
     <!-- Student Info Header -->
     <div>
-      <p> {{ tutorGrupoHasStudentsStore.student?.initials || 'ES' }}</p>
-      <p>{{ tutorGrupoHasStudentsStore.student?.activo ? 'Activo' : 'Inactivo' }}</p>
-      <h2>{{ tutorGrupoHasStudentsStore.student?.full_name || 'Estudiante Desconocido' }}</h2>
-      <p>{{ tutorGrupoHasStudentsStore.student?.activo }}</p>
-      <span>{{ tutorGrupoHasStudentsStore.student?.email || 'Sin correo registrado' }}</span>
-      <span>{{ tutorGrupoHasStudentsStore.student?.rol?.nombre || 'Rol: Estudiante' }}</span>
-      <span>{{ tutorGrupoHasStudentsStore.student?.activo ? 'Cuenta Activa' : 'Cuenta Inactiva' }}</span>
+      <p> {{ userData?.initials || 'ES' }}</p>
+      <p>{{  userData?.activo ? 'Activo' : 'Inactivo' }}</p>
+      <p>{{  userData?.full_name || 'Estudiante Desconocido' }}</p>
+      <p>{{  userData?.activo }}</p>
+      <p>{{  userData?.email || 'Sin correo registrado' }}</p>
+      <p>{{  userData?.rol?.nombre || 'Rol: Estudiante' }}</p>
+      <p>{{  userData?.activo ? 'Cuenta Activa' : 'Cuenta Inactiva' }}</p>
     </div>
 
     <div>

@@ -28,7 +28,8 @@ export const useTutorGrupoHasStudentsStore
         }
     }
 */
-    const fetchStudentsByGroupId = async (groupId) => {
+
+    /*const fetchStudentsByGroupId = async (groupId) => {
         isLoading.value = true;
         error.value = null;
         try {
@@ -39,9 +40,9 @@ export const useTutorGrupoHasStudentsStore
         } finally {
             isLoading.value = false;
         }
-    }
+    }*/
 
-    const fetchDataStudentById = async (groupId, studentId) => {
+    /*const fetchDataStudentById = async (groupId, studentId) => {
         isLoading.value = true;
         error.value = null;
         try {
@@ -53,7 +54,7 @@ export const useTutorGrupoHasStudentsStore
         } finally {
             isLoading.value = false;
         }
-    }
+    }*/
 
     const fetchFormResultsByStudentId = async (studentId, formId) => {
         isLoading.value = true;
