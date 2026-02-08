@@ -1,21 +1,20 @@
 <script setup>
 import {onMounted, ref, watch} from "vue";
 import {storeToRefs} from "pinia";
-import {useFormStore} from "@/stores/tutor/form.js";
 import {useAttemptsStore} from "@/stores/tutor/attempts.js";
 import ReadOnlyQuestion from "@/components/ReadOnlyQuestion.vue";
 import {routes} from "@/router/routes.js";
 import {tutorResultsStore} from "@/stores/tutor/TutorResultsStore.js";
 
 const tutorResultsStr = tutorResultsStore();
-const formStore = useFormStore();
 const attemptsStore = useAttemptsStore();
 
 const {fetchFormResultsByStudentId: fetchFormResults} = tutorResultsStr;
 const {interpretaciones, attemptId, error, isLoading} = storeToRefs(tutorResultsStr);
+const {fetchFormContent} = tutorResultsStr;
+const {formContent, formContentIsLoading, formContentError} = storeToRefs(tutorResultsStr);
 
 const {answers} = storeToRefs(attemptsStore);
-const {formData} = storeToRefs(formStore);
 
 // Estado para colapsar/expandir las respuestas
 const showDetails = ref(false);
@@ -64,7 +63,7 @@ watch(answers, (responses) => {
 
 onMounted(() => {
   fetchFormResults(selectedStudent?.id, formSelected?.id);
-  formStore.fetchFormData(formSelected?.id);
+  fetchFormContent(formSelected?.id)
 });
 
 </script>
@@ -151,7 +150,7 @@ onMounted(() => {
       <div v-show="showDetails" class="border-t border-gray-100 bg-white">
 
         <div class="divide-y divide-gray-100">
-          <div v-for="(seccion, index) in formData?.secciones || []" :key="seccion.id" class="p-6 md:p-8">
+          <div v-for="(seccion, index) in formContent?.secciones || []" :key="seccion.id" class="p-6 md:p-8">
 
             <div class="flex items-center gap-3 mb-6">
               <span
