@@ -14,10 +14,27 @@ const tutorGroupHasStudentsService = {
                 });
         });
     },
-    getStudentsByGroupId: async (groupId) => {
+    /*getStudentsByGroupId: async (groupId) => {
         return new Promise((resolve) => {
             const api = new ApiService();
             api.fetchData(`tutor/groups/${groupId}/students`) // tutor/groups/1/students
+                .then((data) => {
+                    resolve(data);
+                })
+                .catch(() => {
+                    resolve([]);
+                });
+        });
+    },*/
+    getStudentsByGroupId: async (groupId, options = {}) => {
+        return new Promise((resolve) => {
+            const api = new ApiService();
+            let url = `tutor/groups/${groupId}/students`;
+            const params = new URLSearchParams(options).toString();
+            if (params) {
+                url += `?${params}`;
+            }
+            api.fetchData(url)
                 .then((data) => {
                     resolve(data);
                 })

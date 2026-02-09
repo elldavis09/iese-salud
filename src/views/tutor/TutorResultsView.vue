@@ -36,28 +36,28 @@ watch(attemptId, (newAttemptId) => {
 });
 
 watch(answers, (responses) => {
-      console.log("Fetched answers:", responses);
-      if (responses) {
-        // Mostramos las respuestas en el formulario
-        respuestas.value = {}; // Reiniciar respuestas antes de llenarlas
-        responses?.forEach(respuesta => {
+  console.log("Fetched answers:", responses);
+  if (responses) {
+    // Mostramos las respuestas en el formulario
+    respuestas.value = {}; // Reiniciar respuestas antes de llenarlas
+    responses?.forEach(respuesta => {
 
-          const preguntaId = respuesta.pregunta_id;
+      const preguntaId = respuesta.pregunta_id;
 
-          // Asignar el valor correcto según el tipo de respuesta
-          if (respuesta.texto_respuesta !== null) {
-            respuestas.value[preguntaId] = respuesta.texto_respuesta;
-          } else if (respuesta.opcion_pregunta_id !== null) {
-            respuestas.value[preguntaId] = respuesta.opcion_pregunta_id;
-          } else if (respuesta.valor_booleano !== null) {
-            respuestas.value[preguntaId] = respuesta.valor_booleano;
-          } else if (respuesta.opciones_escala_id !== null) {
-            respuestas.value[preguntaId] = respuesta.opciones_escala_id;
-          }
-
-        });
+      // Asignar el valor correcto según el tipo de respuesta
+      if (respuesta.texto_respuesta !== null) {
+        respuestas.value[preguntaId] = respuesta.texto_respuesta;
+      } else if (respuesta.opcion_pregunta_id !== null) {
+        respuestas.value[preguntaId] = respuesta.opcion_pregunta_id;
+      } else if (respuesta.valor_booleano !== null) {
+        respuestas.value[preguntaId] = respuesta.valor_booleano;
+      } else if (respuesta.opciones_escala_id !== null) {
+        respuestas.value[preguntaId] = respuesta.opciones_escala_id;
       }
+
     });
+  }
+});
 
 onMounted(() => {
   fetchFormResults(selectedStudent?.id, formSelected?.id);
@@ -69,6 +69,7 @@ onMounted(() => {
 <template>
   <div class="bg-slate-50 p-6 md:p-8 rounded-3xl min-h-[400px] space-y-10">
 
+    <!-- Análisis de Resultados -->
     <section>
       <div class="mb-6">
         <h2 class="text-2xl font-extrabold text-gray-900 flex items-center gap-3">
@@ -121,7 +122,6 @@ onMounted(() => {
 
     <!-- Detalles de Respuestas -->
     <section class="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
-
       <div
           @click="showDetails = !showDetails"
           class="p-6 md:p-8 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors select-none"

@@ -1,5 +1,5 @@
 <script setup>
-import {nextTick, onMounted, onUpdated, ref} from "vue";
+import {computed, nextTick, onMounted, onUpdated, ref} from "vue";
 import TutorGroupsView from "@/views/tutor/TutorGroupsView.vue";
 import TutorStudentsView from "@/views/tutor/TutorStudentsView.vue";
 import TutorDetailsStudent from "@/views/tutor/TutorDetailsStudent.vue";
@@ -44,141 +44,169 @@ const refreshIcons = () => {
   });
 };
 
+const breadcrumbItems = computed(() => {
+  if (!selectedGroup.value) {
+    return [{ label: 'Groups', active: false }];
+  }
+  return [
+    { label: 'Grupos', active: true },
+    { label: selectedGroup.value.carrera?.nombre, active: false }
+  ];
+});
+
 onMounted(() => {
   refreshIcons
-
 });
 onUpdated(refreshIcons);
 
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50 pb-12">
-    
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex h-screen overflow-hidden">
+    <aside
+        class="w-64 bg-white dark:bg-[#1a2432] border-r border-[#f0f2f4] dark:border-[#2d3a4b] hidden lg:flex flex-col">
+      <div class="p-6 flex items-center gap-3">
+        <div class="bg-primary p-2 rounded-lg text-white">
+          <span class="material-symbols-outlined">school</span>
+        </div>
+        <h2 class="text-xl font-bold tracking-tight">AdminTutor</h2>
+      </div>
+      <nav class="flex-1 px-4 space-y-2 mt-4">
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#617289] dark:text-gray-400 hover:bg-[#f0f2f4] dark:hover:bg-[#2d3a4b] transition-colors"
+           href="#">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span class="font-medium">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary/10 text-primary transition-colors" href="#">
+          <span class="material-symbols-outlined">group</span>
+          <span class="font-medium">Grupos</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#617289] dark:text-gray-400 hover:bg-[#f0f2f4] dark:hover:bg-[#2d3a4b] transition-colors"
+           href="#">
+          <span class="material-symbols-outlined">assessment</span>
+          <span class="font-medium">Reportes</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#617289] dark:text-gray-400 hover:bg-[#f0f2f4] dark:hover:bg-[#2d3a4b] transition-colors"
+           href="#">
+          <span class="material-symbols-outlined">settings</span>
+          <span class="font-medium">Ajustes</span>
+        </a>
+      </nav>
+      <div class="p-4 border-t border-[#f0f2f4] dark:border-[#2d3a4b]">
+        <div class="flex items-center gap-3 p-2">
+          <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">JD
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-semibold truncate">Juan Delgado</p>
+            <p class="text-xs text-[#617289] dark:text-gray-400 truncate">Tutor Administrador</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <main class="flex-1 flex flex-col overflow-y-auto">
+      <header
+          class="h-16 bg-white dark:bg-[#1a2432] border-b border-[#f0f2f4] dark:border-[#2d3a4b] flex items-center justify-between px-8 sticky top-0 z-10">
+        <nav class="flex items-center flex-wrap gap-2 text-sm font-medium">
 
-      <header class="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 mb-8 sticky top-24 z-30 transition-all duration-300">
-        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          
-          <div class="flex items-center gap-3 flex-wrap">
-            
-            <button
-              v-if="view !== 'groups'"
-              @click="handleBack"
-              class="h-10 w-10 flex items-center justify-center rounded-xl bg-gray-50 text-gray-500 hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-200 border border-gray-200 hover:border-indigo-200 group"
-              title="Volver"
-            >
-              <i class="ph ph-arrow-left text-xl group-hover:-translate-x-1 transition-transform"></i>
-            </button>
+          <div
+              class="flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+              :class="view === 'groups' ? 'bg-indigo-50 text-indigo-700 border border-indigo-100' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'"
+              @click="view = 'groups'; selectedGroup = null; selectedStudent = null; selectedTest = null;"
+          >
+            <i class="ph ph-users-three text-lg"></i>
+            <span class="hidden sm:inline">Grupos</span>
+          </div>
 
-            <nav class="flex items-center flex-wrap gap-2 text-sm font-medium">
-              
-              <div 
+          <template v-if="selectedGroup">
+            <i class="ph ph-caret-right text-gray-300"></i>
+            <div
                 class="flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
-                :class="view === 'groups' ? 'bg-indigo-50 text-indigo-700 border border-indigo-100' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'"
-                @click="view = 'groups'; selectedGroup = null; selectedStudent = null; selectedTest = null;"
-              >
-                <i class="ph ph-users-three text-lg"></i>
-                <span class="hidden sm:inline">Grupos</span>
-              </div>
+                :class="view === 'students' ? 'bg-indigo-50 text-indigo-700 border border-indigo-100' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'"
+                @click="handleGroupClick(selectedGroup)"
+            >
+              <span class="truncate max-w-[150px]">{{ selectedGroup.carrera.nombre }}</span>
+            </div>
+          </template>
 
-              <template v-if="selectedGroup">
-                <i class="ph ph-caret-right text-gray-300"></i>
-                <div 
-                  class="flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
-                  :class="view === 'students' ? 'bg-indigo-50 text-indigo-700 border border-indigo-100' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'"
-                  @click="handleGroupClick(selectedGroup)"
-                >
-                  <span class="truncate max-w-[150px]">{{ selectedGroup.carrera.nombre }}</span>
-                </div>
-              </template>
+          <template v-if="selectedStudent">
+            <i class="ph ph-caret-right text-gray-300"></i>
+            <div
+                class="flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+                :class="view === 'tests' ? 'bg-indigo-50 text-indigo-700 border border-indigo-100' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'"
+                @click="handleStudentClick(selectedStudent)"
+            >
+              <i class="ph ph-student text-lg"></i>
+              <span class="truncate max-w-[150px] hidden sm:inline">{{ selectedStudent.full_name }}</span>
+            </div>
+          </template>
 
-              <template v-if="selectedStudent">
-                <i class="ph ph-caret-right text-gray-300"></i>
-                <div 
-                  class="flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
-                  :class="view === 'tests' ? 'bg-indigo-50 text-indigo-700 border border-indigo-100' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'"
-                  @click="handleStudentClick(selectedStudent)"
-                >
-                  <i class="ph ph-student text-lg"></i>
-                  <span class="truncate max-w-[150px] hidden sm:inline">{{ selectedStudent.full_name }}</span>
-                </div>
-              </template>
+          <template v-if="view === 'result'">
+            <i class="ph ph-caret-right text-gray-300"></i>
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm shadow-indigo-200">
+              <i class="ph ph-chart-pie-slice text-lg"></i>
+              <span>Resultados</span>
+            </div>
+          </template>
+        </nav>
 
-              <template v-if="view === 'result'">
-                <i class="ph ph-caret-right text-gray-300"></i>
-                <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm shadow-indigo-200">
-                  <i class="ph ph-chart-pie-slice text-lg"></i>
-                  <span>Resultados</span>
-                </div>
-              </template>
-            </nav>
+        <div class="flex items-center gap-4">
+          <div class="relative hidden sm:block">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">search</span>
+            <input
+                class="pl-10 pr-4 py-1.5 bg-[#f0f2f4] dark:bg-[#2d3a4b] border-none rounded-lg text-sm focus:ring-2 focus:ring-primary w-64"
+                placeholder="Buscar alumno o grupo..." type="text" />
           </div>
-
-          <div class="hidden md:flex items-center gap-2 text-gray-400 text-sm font-medium border-l border-gray-200 pl-4">
-            <span v-if="view === 'groups'">Vista General</span>
-            <span v-else-if="view === 'students'">Listado de Alumnos</span>
-            <span v-else-if="view === 'tests'">Historial de Tests</span>
-            <span v-else-if="view === 'result'">Análisis Detallado</span>
-            <i class="ph ph-info"></i>
-          </div>
-
+          <button class="p-2 text-gray-400 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <button class="p-2 text-gray-400 hover:text-primary transition-colors lg:hidden">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
         </div>
       </header>
-
-      <div class="relative min-h-[500px]">
-        <transition 
-          name="fade-slide" 
-          mode="out-in"
-        >
+      <!-- Contenido principal -->
+      <div>
+        <transition name="fade-slide" mode="out-in">
+          <!-- Grupos -->
           <div v-if="view === 'groups'" key="groups">
             <TutorGroupsView @groupSelected="handleGroupClick"/>
           </div>
 
+          <!-- Estudiantes -->
           <div v-else-if="view === 'students'" key="students">
-            <TutorStudentsView 
-              :groupId="selectedGroup.id" 
-              @handledStudentClick="handleStudentClick"
+            <TutorStudentsView
+                :groupId="selectedGroup.id"
+                @handledStudentClick="handleStudentClick"
             />
           </div>
 
+          <!-- Detalles del estudiante y tests -->
           <div v-else-if="view === 'tests'" key="tests">
-            <TutorDetailsStudent 
-              :selectedGroupId="selectedGroup.id" 
-              :selectedStudentId="selectedStudent.id" 
-              @handledTestClick="handleTestClick"
+            <TutorDetailsStudent
+                :selectedGroupId="selectedGroup.id"
+                :selectedStudentId="selectedStudent.id"
+                @handledTestClick="handleTestClick"
             />
           </div>
 
+          <!-- Resultados del test -->
           <div v-else-if="view === 'result'" key="result">
-            <TutorResultsView 
-              :selectedStudent="selectedStudent" 
-              :selectedTest="selectedTest"
-              :selectedGroup="selectedGroup"
+            <TutorResultsView
+                :selectedStudent="selectedStudent"
+                :selectedTest="selectedTest"
+                :selectedGroup="selectedGroup"
             />
           </div>
-
         </transition>
       </div>
-
+      <!-- Footer -->
+      <footer class="p-8 text-center text-sm text-[#617289] dark:text-gray-400">
+        © 2023 AdminTutor System. Todos los derechos reservados.
+      </footer>
     </main>
   </div>
 </template>
 
 <style scoped>
-/* 3. Animación personalizada suave entre vistas */
-.fade-slide-enter-active,
-.fade-slide-leave-active {
-  transition: all 0.3s ease;
-}
-
-.fade-slide-enter-from {
-  opacity: 0;
-  transform: translateX(10px);
-}
-
-.fade-slide-leave-to {
-  opacity: 0;
-  transform: translateX(-10px);
-}
 </style>

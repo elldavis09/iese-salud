@@ -11,11 +11,11 @@ export const tutorStudentsStore
     const error = ref(null);
 
     // Fetch students by group ID
-    const fetchStudentsByGroupId = async (groupId) => {
+    const fetchStudentsByGroupId = async (groupId, page) => {
         isLoading.value = true;
         error.value = null;
         try {
-            students.value = await fetchStudentsUseCase(groupId);
+            students.value = await fetchStudentsUseCase(groupId, { page });
         } catch (err) {
             error.value = err.message || 'Error fetching students';
         } finally {

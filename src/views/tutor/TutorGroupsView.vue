@@ -2,11 +2,12 @@
 import {onMounted} from "vue";
 import {tutorGroupsStore} from "@/stores/tutor/TutorGroupsStore.js";
 import {storeToRefs} from "pinia";
+import TutorGroupItem from "@/components/TutorGroupItem.vue";
 
 // --- STORES ---
 const tutorGroupsStr = tutorGroupsStore();
 const {fetchGroups: fetch} = tutorGroupsStr;
-const { groups, isLoading: groupsLoading} = storeToRefs(tutorGroupsStr);
+const {groups, isLoading: groupsLoading} = storeToRefs(tutorGroupsStr);
 
 // --- EMITS ---
 const emit = defineEmits(['groupSelected']);
@@ -22,19 +23,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <h1 class="text-2xl font-bold mb-4">Grupos</h1>
+  <div class="p-8 space-y-6 max-w-7xl mx-auto w-full flex-1">
+    <!-- Loading state -->
     <div v-if="groupsLoading" class="text-center py-4">
       <p>Cargando grupos...</p>
     </div>
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div v-for="group in groups" :key="group.id" @click="selectGroup(group)"
-           class="p-4 mb-4 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50">
-        <p>{{ group?.grupo ?? 'Sin grupo' }}</p>
-        <p>{{ group?.ciclo ?? 'Sin ciclo' }}</p>
-        <p>{{ group?.carrera?.nombre ?? 'Sin carrera' }}</p>
-        <p>{{ group?.estudiantes_count ?? 'Sin estudiantes' }}</p>
-      </div>
+    <!-- Empty state -->
+
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <TutorGroupItem
+          v-for="group in groups"
+          :key="group.id"
+          :group="group"
+          @select="selectGroup(group)"
+      />
     </div>
   </div>
 </template>
