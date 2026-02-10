@@ -1,5 +1,5 @@
 <script setup>
-import {computed, nextTick, onMounted, onUpdated, ref} from "vue";
+import { nextTick, onMounted, onUpdated, ref} from "vue";
 import AnalyticsView from "@/views/tutor/analytics/AnalyticsView.vue";
 import GroupsView from "@/views/tutor/groups/GroupsView.vue";
 
