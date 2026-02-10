@@ -1,11 +1,12 @@
 <script setup>
 import {computed, nextTick, onMounted, onUpdated, ref} from "vue";
-import TutorGroupsView from "@/views/tutor/TutorGroupsView.vue";
+import TutorGroupsView from "@/views/tutor/analytics/TutorGroupsView.vue";
 import TutorStudentsView from "@/views/tutor/TutorStudentsView.vue";
 import TutorDetailsStudent from "@/views/tutor/TutorDetailsStudent.vue";
 import TutorResultsView from "@/views/tutor/TutorResultsView.vue";
-import FormAnalyticsView from "@/views/tutor/FormAnalyticsView.vue";
-import TutorFormsView from "@/views/tutor/TutorFormsView.vue";
+import FormAnalyticsView from "@/views/tutor/analytics/FormAnalyticsView.vue";
+import TutorFormsView from "@/views/tutor/analytics/TutorFormsView.vue";
+import GroupsView from "@/views/tutor/analytics/GroupsView.vue";
 
 // --- STATE & NAVIGATION ---
 const view = ref('groups'); // groups | students | tests | result
@@ -44,15 +45,6 @@ const handleTestClick = (test) => {
   view.value = 'result';
 };
 
-const handleGroupReportClick = (group) => {
-  selectedGroup.value = group;
-  view.value = 'tests';
-};
-
-const handleTestReportClick = (test) => {
-  selectedTest.value = test;
-  view.value = 'report';
-};
 
 const handleBack = () => {
   if (view.value === 'result') view.value = 'tests';
@@ -237,26 +229,7 @@ onUpdated(refreshIcons);
       </div>
       <div v-if="currentViewSelected === 'reports'">
         <!-- Seleccionar grupo -->
-        <div>
-          <transition name="fade-slide" mode="out-in">
-            <!-- Grupos -->
-            <div v-if="view === 'groups'" key="groups">
-              <TutorGroupsView @groupSelected="handleGroupReportClick"/>
-            </div>
-
-            <div v-else-if="view === 'tests'">
-              <TutorFormsView
-                  @form-selected="args => handleTestReportClick(args)"
-              />
-            </div>
-            <div v-else>
-              <FormAnalyticsView
-                  :form="selectedTest?.id"
-                  :group="selectedGroup?.id"
-              />
-            </div>
-          </transition>
-        </div>
+        <GroupsView />
       </div>
       <!-- Footer -->
       <footer class="p-8 text-center text-sm text-[#617289] dark:text-gray-400">
