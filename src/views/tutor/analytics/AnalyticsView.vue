@@ -111,6 +111,7 @@ const handleTestReportClick = (test) => {
         </button>
       </div>
     </header>
+    <h1>Reportes grupales</h1>
     <transition name="fade-slide" mode="out-in">
       <!-- Grupos -->
       <div v-if="view === 'groups'" key="groups">
