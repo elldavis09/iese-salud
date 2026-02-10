@@ -9,23 +9,6 @@ const navigateTo = (newView) => {
   currentViewSelected.value = newView;
 };
 
-
-// --- ICONS UPDATE LOGIC ---
-// Lucide necesita volver a escanear el DOM cuando Vue actualiza la vista
-const refreshIcons = () => {
-  nextTick(() => {
-    if (window.lucide) {
-      window.lucide.createIcons();
-    }
-  });
-};
-
-
-onMounted(() => {
-  refreshIcons
-});
-onUpdated(refreshIcons);
-
 </script>
 
 <template>
