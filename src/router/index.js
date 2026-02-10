@@ -8,7 +8,6 @@ import FormView from '@/views/student/FormView.vue';
 import InterpretacionView from "@/views/student/InterpretacionView.vue";
 import TutorDashboard from "@/views/tutor/TutorDashboard.vue";
 import {userStore} from "@/stores/userStore.js";
-import FormAnalyticsView from "@/views/tutor/FormAnalyticsView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,7 +20,7 @@ const router = createRouter({
         {path: '/student/forms/:id', component: FormView, meta: {requiresAuth: true}},
         {path: '/student/forms/:formId/attempts/:attemptId/results', component: InterpretacionView, meta: {requiresAuth: true}},
         {path: '/tutor/dashboard', component: TutorDashboard, meta: {requiresAuth: true}},
-        {path: '/tutor/groups/:group/forms/:form/analytics', component: FormAnalyticsView, meta: {requiresAuth: false}},
+        // {path: '/tutor/groups/:group/forms/:form/analytics', component: FormAnalyticsView, meta: {requiresAuth: false}},
     ]
 });
 

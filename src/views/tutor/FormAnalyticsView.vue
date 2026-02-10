@@ -5,11 +5,21 @@ import {storeToRefs} from "pinia";
 import {tutorFormAnalyticStore} from "@/stores/tutor/TutorFormAnalyticStore.js";
 import GroupResultsUI from "@/components/GroupResultsUI.vue";
 
-// IMPORTAMOS EL COMPONENTE VISUAL
-
 const route = useRoute();
-const group = ref(route.params.group);
-const form = ref(route.params.form);
+// Es solo para obtener los parámetros de la ruta, pero no es necesario hacerlos reactivos si no se van a modificar
+// const group = ref(route.params.group);
+// const form = ref(route.params.form);
+
+const props = defineProps({
+  group: {
+    type: Number,
+    required: true
+  },
+  form: {
+    type: Number,
+    required: true
+  }
+});
 
 // 1. Inicializar el Store correctamente (useAnalyticsStore es una función)
 const tutorFormAnalyticStr = tutorFormAnalyticStore();
@@ -21,7 +31,7 @@ const {fetchAnalyticsByForm} = tutorFormAnalyticStr;
 onMounted(async () => {
   isLoading.value = true;
   try {
-    await fetchAnalyticsByForm(group.value, form.value);
+    await fetchAnalyticsByForm(props.group, props.form);
 
   } catch (err) {
     console.error("Error cargando analíticas:", err);
