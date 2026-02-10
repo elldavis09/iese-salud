@@ -1,6 +1,6 @@
 <script setup>
 
-import TutorGroupsView from "@/views/tutor/analytics/TutorGroupsView.vue";
+import GroupsListGrid from "@/components/GroupsListGrid.vue";
 import FormAnalyticsView from "@/views/tutor/analytics/FormAnalyticsView.vue";
 import TutorFormsView from "@/views/tutor/analytics/TutorFormsView.vue";
 import {ref} from "vue";
@@ -111,11 +111,10 @@ const handleTestReportClick = (test) => {
         </button>
       </div>
     </header>
-    <h1>Reportes grupales</h1>
     <transition name="fade-slide" mode="out-in">
       <!-- Grupos -->
       <div v-if="view === 'groups'" key="groups">
-        <TutorGroupsView @groupSelected="handleGroupReportClick"/>
+        <GroupsListGrid @groupSelected="handleGroupReportClick"/>
       </div>
 
       <div v-else-if="view === 'tests'">

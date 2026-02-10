@@ -1,6 +1,6 @@
 <script setup>
 
-import TutorGroupsView from "@/views/tutor/analytics/TutorGroupsView.vue";
+import GroupsListGrid from "@/components/GroupsListGrid.vue";
 import TutorStudentsView from "@/views/tutor/TutorStudentsView.vue";
 import TutorDetailsStudent from "@/views/tutor/TutorDetailsStudent.vue";
 import TutorResultsView from "@/views/tutor/TutorResultsView.vue";
@@ -108,7 +108,7 @@ const handleBack = () => {
     <transition name="fade-slide" mode="out-in">
       <!-- Grupos -->
       <div v-if="view === 'groups'" key="groups">
-        <TutorGroupsView @groupSelected="handleGroupClick"/>
+        <GroupsListGrid @groupSelected="handleGroupClick"/>
       </div>
 
       <!-- Estudiantes -->

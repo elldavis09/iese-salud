@@ -2,7 +2,8 @@
 import {onMounted} from "vue";
 import {tutorGroupsStore} from "@/stores/tutor/TutorGroupsStore.js";
 import {storeToRefs} from "pinia";
-import TutorGroupItem from "@/components/TutorGroupItem.vue";
+import GroupItem from "@/components/GroupItem.vue";
+import Loading from "@/components/Loading.vue";
 
 // --- STORES ---
 const tutorGroupsStr = tutorGroupsStore();
@@ -26,12 +27,11 @@ onMounted(() => {
   <div class="p-8 space-y-6 max-w-7xl mx-auto w-full flex-1">
     <!-- Loading state -->
     <div v-if="groupsLoading" class="text-center py-4">
-      <p>Cargando grupos...</p>
+      <Loading />
     </div>
-    <!-- Empty state -->
-
+    <!-- Content -->
     <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-      <TutorGroupItem
+      <GroupItem
           v-for="group in groups"
           :key="group.id"
           :group="group"
