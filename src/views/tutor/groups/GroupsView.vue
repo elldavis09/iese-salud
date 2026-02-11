@@ -5,6 +5,7 @@ import TutorStudentsView from "@/views/tutor/TutorStudentsView.vue";
 import TutorDetailsStudent from "@/views/tutor/TutorDetailsStudent.vue";
 import TutorResultsView from "@/views/tutor/TutorResultsView.vue";
 import {ref} from "vue";
+import Breadcrumb from "@/components/Breadcrumb.vue";
 
 const view = ref('groups'); // groups | students | tests | result
 const selectedGroup = ref(null);
@@ -33,62 +34,58 @@ const handleBack = () => {
   else if (view.value === 'tests') view.value = 'students';
   else if (view.value === 'students') view.value = 'groups';
 };
+
+const itemsMenu = [
+  {order: 1, label: 'Grupos', active: true, click: handleGroupClick},
+  {order: 2, label: 'Students', active: false, click: handleStudentClick},
+  {order: 3, label: 'Test', active: false, click: handleTestClick},
+  {order: 4, label: 'Results', active: false, click: handleBack}
+]
+
+const handleBreadcrumbClick = (index) => {
+  if (index === 0) {
+    view.value = 'groups';
+    selectedGroup.value = null;
+    selectedStudent.value = null;
+    selectedTest.value = null;
+  } else if (index === 1) {
+    view.value = 'students';
+    selectedStudent.value = null;
+    selectedTest.value = null;
+  } else if (index === 2) {
+    view.value = 'tests';
+    selectedTest.value = null;
+  } else if (index === 3) {
+    view.value = 'result';
+  }
+};
+
+const createItemsMenu = () => {
+  const items = [];
+  if (view.value === 'groups') {
+    items.push({label: 'Grupos', active: true});
+  } else if (view.value === 'students') {
+    items.push({label: 'Grupos', active: false, click: () => handleBreadcrumbClick(0)});
+    items.push({label: selectedGroup.value?.name || 'Estudiantes', active: true});
+  } else if (view.value === 'tests') {
+    items.push({label: 'Grupos', active: false, click: () => handleBreadcrumbClick(0)});
+    items.push({label: selectedGroup.value?.name || 'Estudiantes', active: false, click: () => handleBreadcrumbClick(1)});
+    items.push({label: selectedStudent.value?.fullName || 'Detalles', active: true});
+  } else if (view.value === 'result') {
+    items.push({label: 'Grupos', active: false, click: () => handleBreadcrumbClick(0)});
+    items.push({label: selectedGroup.value?.name || 'Estudiantes', active: false, click: () => handleBreadcrumbClick(1)});
+    items.push({label: selectedStudent.value?.fullName || 'Detalles', active: false, click: () => handleBreadcrumbClick(2)});
+    items.push({label: selectedTest.value?.name || 'Resultados', active: true});
+  }
+  return items;
+};
 </script>
 
 <template>
   <div>
-    <header class="h-16 bg-white dark:bg-[#1a2432] border-b border-[#f0f2f4] dark:border-[#2d3a4b] flex items-center justify-between px-8 sticky top-0 z-10">
-      <nav class="flex items-center flex-wrap gap-2 text-sm font-medium">
-        <div
-            class="flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
-            :class="view === 'groups' ? 'bg-indigo-50 text-indigo-700 border border-indigo-100' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'"
-            @click="view = 'groups'; selectedGroup = null; selectedStudent = null; selectedTest = null;"
-        >
-          <i class="ph ph-users-three text-lg"></i>
-          <span class="hidden sm:inline">Grupos</span>
-        </div>
-
-        <template v-if="selectedGroup">
-          <i class="ph ph-caret-right text-gray-300"></i>
-          <div
-              class="flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
-              :class="view === 'students' ? 'bg-indigo-50 text-indigo-700 border border-indigo-100' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'"
-              @click="handleGroupClick(selectedGroup)"
-          >
-            <span class="truncate max-w-[150px]">{{ selectedGroup.carrera.nombre }}</span>
-          </div>
-        </template>
-
-        <template v-if="selectedStudent">
-          <i class="ph ph-caret-right text-gray-300"></i>
-          <div
-              class="flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
-              :class="view === 'tests' ? 'bg-indigo-50 text-indigo-700 border border-indigo-100' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'"
-              @click="handleStudentClick(selectedStudent)"
-          >
-            <i class="ph ph-student text-lg"></i>
-            <span class="truncate max-w-[150px] hidden sm:inline">{{ selectedStudent.full_name }}</span>
-          </div>
-        </template>
-
-        <template v-if="view === 'result'">
-          <i class="ph ph-caret-right text-gray-300"></i>
-          <div
-              class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm shadow-indigo-200">
-            <i class="ph ph-chart-pie-slice text-lg"></i>
-            <span>Resultados</span>
-          </div>
-        </template>
-
-        <template v-if="view === 'report'">
-          <i class="ph ph-caret-right text-gray-300"></i>
-          <div
-              class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm shadow-indigo-200">
-            <i class="ph ph-chart-pie-slice text-lg"></i>
-            <span>Reporte</span>
-          </div>
-        </template>
-      </nav>
+    <header
+        class="h-16 bg-white dark:bg-[#1a2432] border-b border-[#f0f2f4] dark:border-[#2d3a4b] flex items-center justify-between px-8 sticky top-0 z-10">
+      <Breadcrumb :items="createItemsMenu()"/>
       <div class="flex items-center gap-4">
         <div class="relative hidden sm:block">
                         <span

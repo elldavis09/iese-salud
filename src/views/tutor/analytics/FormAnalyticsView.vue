@@ -50,12 +50,14 @@ onMounted(async () => {
       <p class="text-indigo-600 font-medium animate-pulse">Analizando respuestas grupales...</p>
     </div>
 
+<!--
     <div v-else-if="error" class="p-8 flex justify-center">
       <div class="bg-red-50 text-red-700 px-6 py-4 rounded-xl border border-red-200 flex items-center gap-3">
         <i class="ph ph-warning-circle text-xl"></i>
         {{ error }}
       </div>
     </div>
+-->
 
     <div v-else-if="!formAnalytics" class="p-10 flex flex-col items-center justify-center text-gray-400">
       <i class="ph ph-chart-pie-slice text-4xl mb-2 opacity-50"></i>

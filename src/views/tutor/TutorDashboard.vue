@@ -3,8 +3,12 @@ import {ref} from "vue";
 import AnalyticsView from "@/views/tutor/analytics/AnalyticsView.vue";
 import GroupsView from "@/views/tutor/groups/GroupsView.vue";
 import SideNav from "@/components/SideNav.vue";
+import {useRouter} from "vue-router";
 
-const currentViewSelected = ref('dashboard'); // dashboard | groups | reports | settings
+
+const router = useRouter();
+
+const currentViewSelected = ref('dashboard');
 
 const navigateTo = (newView) => {
   currentViewSelected.value = newView;
@@ -14,9 +18,7 @@ const navigateTo = (newView) => {
 
 <template>
   <div class="flex h-screen overflow-hidden">
-    <SideNav
-        @navigateTo="navigateTo"
-    />
+    <SideNav @navigateTo="navigateTo"/>
     <main class="flex-1 flex flex-col overflow-y-auto">
       <!-- Dashboard -->
       <div v-if="currentViewSelected === 'dashboard'">
