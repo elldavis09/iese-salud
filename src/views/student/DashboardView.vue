@@ -6,6 +6,11 @@ import {useFormulariosStore} from "@/stores/student/forms.js";
 import {routes} from "@/router/routes.js";
 import {ref} from 'vue';
 import {useNotificationStore} from "@/stores/notification.js";
+import StudentMenu from "@/components/StudentMenu.vue";
+import ContentPage from "@/components/ContentPage.vue";
+import PageContent from "@/components/PageContent.vue";
+import Loading from "@/components/Loading.vue";
+import StudentFormItem from "@/components/StudentFormItem.vue";
 
 const formsStore = useFormulariosStore();
 const notification = useNotificationStore();
@@ -25,133 +30,78 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-[400px] bg-slate-50 p-6 md:p-8 rounded-3xl">
-    <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
-      <div>
-        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight flex items-center gap-3">
-          <span class="bg-indigo-100 text-indigo-600 p-2 rounded-lg">
-            <i class="ph ph-files text-2xl"></i>
-          </span>
-          Mis Formularios
-        </h1>
-        <p class="text-gray-500 mt-2 text-lg">
-          Selecciona un formulario pendiente para comenzar.
-        </p>
-      </div>
+  <PageContent>
+    <StudentMenu />
+    <ContentPage>
+      <div class="p-8">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+          <div class="xl:col-span-8 space-y-6">
 
-      <!-- View Mode Toggle & Forms Count -->
-      <div class="flex items-center gap-3">
-        <div class="flex bg-gray-200 p-1 rounded-lg">
-          <button
-              @click="viewMode = 'grid'"
-              class="p-2 rounded-md transition-all duration-200 flex items-center justify-center"
-              :class="viewMode === 'grid' ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'"
-              title="Vista Cuadrícula"
-          >
-            <i class="ph ph-squares-four text-xl"></i>
-          </button>
-          <button
-              @click="viewMode = 'list'"
-              class="p-2 rounded-md transition-all duration-200 flex items-center justify-center"
-              :class="viewMode === 'list' ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'"
-              title="Vista Lista"
-          >
-            <i class="ph ph-list-dashes text-xl"></i>
-          </button>
-        </div>
-
-        <div v-if="!formsIsLoading && forms.length > 0"
-             class="text-sm font-medium text-gray-400 bg-white px-3 py-2 rounded-lg border border-gray-200 shadow-sm whitespace-nowrap">
-          {{ forms.length }} Asignados
-        </div>
-      </div>
-    </div>
-
-    <div v-if="formsIsLoading"
-         :class="viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' : 'flex flex-col gap-4'">
-      <div v-for="n in 3" :key="n" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 animate-pulse flex"
-           :class="viewMode === 'grid' ? 'flex-col h-48 justify-between' : 'flex-row items-center h-24 gap-4'">
-        <div class="space-y-3 flex-1">
-          <div class="h-6 bg-gray-200 rounded w-3/4"></div>
-          <div class="h-4 bg-gray-100 rounded w-full"></div>
-        </div>
-        <div :class="viewMode === 'grid' ? 'w-full h-10 mt-4' : 'w-32 h-10'" class="bg-gray-100 rounded-lg"></div>
-      </div>
-    </div>
-
-    <div v-else-if="forms.length === 0"
-         class="flex flex-col justify-center items-center py-20 bg-white rounded-3xl border border-dashed border-gray-300">
-      <div class="bg-indigo-50 p-6 rounded-full mb-4 ring-8 ring-indigo-50/50">
-        <i class="ph ph-tray text-4xl text-indigo-400"></i>
-      </div>
-      <h3 class="text-xl font-bold text-gray-900">Todo está limpio por aquí</h3>
-      <p class="text-gray-500 mt-2 max-w-sm text-center">
-        No tienes formularios asignados en este momento. ¡Buen trabajo!
-      </p>
-    </div>
-
-    <div v-else
-         :class="viewMode === 'grid' 
-           ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' 
-           : 'flex flex-col gap-4'">
-      <div
-          v-for="formulario in forms"
-          :key="formulario.id"
-          class="group relative bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg hover:border-indigo-200 transition-all duration-300 cursor-pointer p-6"
-          :class="viewMode === 'grid'
-          ? 'flex flex-col hover:-translate-y-1' 
-          : 'flex flex-col md:flex-row md:items-center hover:-translate-x-1'"
-          @click="router.push(routes.studentForm(formulario.id))"
-      >
-        <!-- Decorative Arrow for Grid View -->
-        <div v-if="viewMode === 'grid'"
-             class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-          <i class="ph ph-arrow-right text-6xl text-indigo-600 -rotate-45 group-hover:rotate-0 transition-transform duration-500"></i>
-        </div>
-        <!-- Form Info -->
-        <div class="relative z-10 flex-1" :class="viewMode === 'list' ? 'flex items-center gap-6' : 'mb-6'">
-
-          <!-- Icon -->
-          <div
-              class="bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shrink-0"
-              :class="viewMode === 'grid' ? 'w-12 h-12 mb-4' : 'w-14 h-14'">
-            <i class="ph ph-clipboard-text text-2xl"></i>
+            <section class="bg-white rounded-lg border border-[var(--border-color)] shadow-sm overflow-hidden">
+              <div class="p-6 border-b border-[var(--border-color)] flex items-center justify-between">
+                <h2 class="text-lg font-bold text-slate-900">Mis Formularios</h2>
+                <div class="flex gap-2">
+                  <button class="px-3 py-1.5 text-xs font-semibold bg-slate-100 text-slate-900 rounded border border-slate-200">Todos</button>
+                  <button class="px-3 py-1.5 text-xs font-semibold text-slate-500 hover:bg-slate-50 rounded transition-all">Pendientes</button>
+                </div>
+              </div>
+              <div class="divide-y divide-slate-100">
+                <StudentFormItem
+                    v-for="form in forms"
+                    :key="form.id"
+                    :form="form"
+                    @click="router.push(routes.studentForm(form.id))"
+                />
+              </div>
+            </section>
           </div>
-
-          <!-- Form Name and Description -->
-          <div>
-            <h2 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-700 transition-colors">
-              {{ formulario.nombre }}
-            </h2>
-            <p class="text-gray-500 text-sm leading-relaxed"
-               :class="viewMode === 'grid' ? 'line-clamp-3' : 'line-clamp-1 pr-4'">
-              {{ formulario.descripcion || "Sin descripción disponible." }}
-            </p>
-
-            <!-- Attempts count -->
-            <div v-if="formulario.intentos_count > 0" class="mt-2 text-sm text-gray-400">
-              Has intentado completar este formulario {{ formulario.intentos_count }}
-              {{ formulario.intentos_count === 1 ? 'vez' : 'veces' }}.
+          <div class="xl:col-span-4 space-y-6">
+            <div class="bg-white rounded-lg border border-[var(--border-color)] shadow-sm">
+              <div class="p-4 border-b border-[var(--border-color)]">
+                <h2 class="font-bold text-slate-900 flex items-center gap-2">
+                  <span class="material-symbols-outlined text-institutional text-xl">stars</span>
+                  Logros Recientes
+                </h2>
+              </div>
+              <div class="p-4 space-y-4">
+                <div class="flex items-start gap-3">
+                  <div class="mt-1 w-2 h-2 rounded-full bg-emerald-500"></div>
+                  <div>
+                    <p class="text-sm font-bold text-slate-900">Excelencia en Matemáticas</p>
+                    <p class="text-xs text-slate-500">Calificación 10.0 en el último examen parcial.</p>
+                    <p class="text-[10px] text-slate-400 mt-1 uppercase">Ayer</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="mt-1 w-2 h-2 rounded-full bg-blue-500"></div>
+                  <div>
+                    <p class="text-sm font-bold text-slate-900">Colaborador Destacado</p>
+                    <p class="text-xs text-slate-500">Participación activa en foros de Programación.</p>
+                    <p class="text-[10px] text-slate-400 mt-1 uppercase">Hace 3 días</p>
+                  </div>
+                </div>
+              </div>
+              <div class="p-4 border-t border-[var(--border-color)]">
+                <button class="w-full text-xs font-bold text-institutional hover:underline">VER TODO EL HISTORIAL</button>
+              </div>
+            </div>
+            <div class="bg-institutional text-white p-6 rounded-lg shadow-md relative overflow-hidden">
+              <div class="absolute -right-4 -bottom-4 opacity-10">
+                <span class="material-symbols-outlined !text-8xl">lightbulb</span>
+              </div>
+              <h4 class="font-bold mb-2 flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">info</span>
+                Tip de Estudio
+              </h4>
+              <p class="text-sm text-slate-300 leading-relaxed italic">
+                "Organiza tus sesiones de estudio con la técnica Pomodoro para mantener un rendimiento alto durante los exámenes parciales."
+              </p>
             </div>
           </div>
         </div>
-
-
-        <!-- Action Button -->
-        <div class="relative z-10" :class="viewMode === 'grid' ? 'mt-auto' : 'mt-4 md:mt-0 md:w-auto'">
-          <button
-              class="py-3 px-4 bg-gray-50 text-indigo-600 font-bold rounded-xl border border-gray-100 group-hover:bg-indigo-600 group-hover:text-white group-hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2"
-              :class="viewMode === 'grid' ? 'w-full' : 'w-full md:w-auto whitespace-nowrap'"
-          >
-            <span v-if="viewMode === 'grid' ">Completar ahora</span>
-            <span v-else>Completar</span>
-            <i class="ph ph-caret-right text-lg"></i>
-          </button>
-        </div>
       </div>
-    </div>
-
-  </div>
+    </ContentPage>
+  </PageContent>
 </template>
 
 <style scoped>
