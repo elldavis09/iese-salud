@@ -2,24 +2,53 @@ import {ref} from 'vue';
 import {defineStore} from 'pinia';
 import formsService from '@/services/student/formsService.js';
 
-export const useFormulariosStore = defineStore('formularios', () => {
+export const useFormsStore = defineStore('formularios', () => {
     const forms = ref([]);
-    const formsMessage = ref(null);
-    const formsError = ref(null);
-    const formsIsLoading = ref(false);
+    const formSelected = ref(null);
+    const message = ref(null);
+    const error = ref(null);
+    const isLoading = ref(false);
 
     async function getForms() {
-        formsIsLoading.value = true;
-        formsError.value = null;
+        isLoading.value = true;
+        error.value = null;
         try {
             const data = await formsService.getForms();
-            formsMessage.value = data.message;
+            message.value = data.message;
             forms.value = data.data;
         } catch (err) {
-            // error.value = err.message || 'Error al cargar los formularios.';
-            formsError.value = err.message || 'Error al cargar los formularios.';
+            error.value = err.message || 'Error al cargar los formularios.';
         } finally {
-            formsIsLoading.value = false;
+            isLoading.value = false;
+        }
+    }
+
+    async function getFormById(formId) {
+        isLoading.value = true;
+        error.value = null;
+        try {
+            const data = await formsService.getFormById(formId);
+            message.value = data.message;
+            formSelected.value = data.data;
+        } catch (err) {
+            error.value = err.message || 'Error al cargar el formulario.';
+            throw err;
+        } finally {
+            isLoading.value = false;
+        }
+    }
+
+    async function submitFormResponses(formId, responses) {
+        isLoading.value = true;
+        error.value = null;
+        try {
+            const data = await formsService.submitFormResponses(formId, responses);
+            message.value = data.message;
+        } catch (err) {
+            message.value = err.message || 'Error al enviar el formulario.';
+            throw err;
+        } finally {
+            isLoading.value = false;
         }
     }
 
@@ -29,10 +58,14 @@ export const useFormulariosStore = defineStore('formularios', () => {
 
     return {
         forms,
-        formsMessage,
-        formsError,
-        formsIsLoading,
-        getForms
+        formSelected,
+        message,
+        error,
+        isLoading,
+        getForms,
+        getFormById,
+        submitFormResponses,
+        clearForms
     };
 });
 

@@ -1,18 +1,9 @@
 import ApiService from "@/services/apiService.js";
+import apiClient from "@/services/apiService.js";
 
-const interpretationService = {
+export default {
     async getInterpretationById(intentId) {
-        return new Promise((resolve, reject) => {
-            const api = new ApiService();
-            api.fetchData(`student/intentos/${intentId}/interpretaciones`)// student/formularios/2/intentos/48/interpretaciones
-                .then((data) => {
-                    resolve(data);
-                })
-                .catch((error) => {
-                    reject(error);
-                });
-        });
+        const response = await apiClient.get(`student/intentos/${intentId}/interpretaciones`);
+        return response.data;
     }
-};
-
-export default interpretationService;
+}

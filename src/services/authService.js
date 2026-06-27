@@ -1,13 +1,11 @@
-// src/services/authService.js
-
 import apiClient from "@/services/apiService.js";
 
 export default {
     async login(credentials) {
         const response = await apiClient.post('student/login', credentials);
         // Guardar el token en el almacenamiento local si la respuesta es exitosa
-        if (response.data && response.data.token) {
-            localStorage.setItem('auth_token', response.data.token);
+        if (response.data && response.data.data.token) {
+            localStorage.setItem('auth_token', response.data.data.token);
         }
         return response.data;
     },
@@ -21,7 +19,7 @@ export default {
     },
     async getCurrentUser() {
         // Gracias al interceptor, no necesitamos enviar el token manualmente aquí
-        const response = await apiClient.get('/user/profile');
+        const response = await apiClient.get('/user');
         return response.data;
     },
     async logout() {

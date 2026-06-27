@@ -15,6 +15,7 @@ export const useAuthStore = defineStore('auth', () => {
         if (token.value && !user.value) {
             try {
                 const response = await authService.getCurrentUser();
+                console.log(response.data)
                 user.value = response.data;
             } catch (err) {
                 logout();

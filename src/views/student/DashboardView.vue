@@ -2,7 +2,7 @@
 import {onMounted} from 'vue';
 import {useRouter} from 'vue-router';
 import {storeToRefs} from 'pinia';
-import {useFormulariosStore} from "@/stores/student/forms.js";
+import {useFormsStore} from "@/stores/student/forms.js";
 import {routes} from "@/router/routes.js";
 import {ref} from 'vue';
 import {useNotificationStore} from "@/stores/notification.js";
@@ -14,10 +14,10 @@ import StudentFormItem from "@/components/StudentFormItem.vue";
 import {useAuthStore} from "@/stores/authStore.js";
 
 const authStore = useAuthStore();
-const formsStore = useFormulariosStore();
+const formsStore = useFormsStore();
 const router = useRouter();
 
-const {formsIsLoading, formsError, formsMessage, forms} = storeToRefs(formsStore);
+const {isLoading, error, message, forms} = storeToRefs(formsStore);
 
 const getForms = async () => {
   await formsStore.getForms();
@@ -26,6 +26,11 @@ const getForms = async () => {
 const logout = async () => {
   authStore.logout();
   await router.push(routes.login);
+};
+
+const handleFormClick = (formId) => {
+  // console.log(routes.studentForm(formId));
+  router.push(routes.studentForm(formId));
 };
 
 onMounted(() => {
@@ -54,7 +59,7 @@ onMounted(() => {
                     v-for="form in forms"
                     :key="form.id"
                     :form="form"
-                    @click="router.push(routes.studentForm(form.id))"
+                    @click="handleFormClick(form.id)"
                 />
               </div>
             </section>

@@ -2,35 +2,34 @@
 import {onMounted, ref, watch} from 'vue';
 import {useRoute} from 'vue-router';
 import {storeToRefs} from "pinia";
-import {useFormulariosStore} from '@/stores/student/forms.js';
-import router from "@/router/index.js";
-import {routes} from '@/router/routes';
 import {useNotificationStore} from "@/stores/notification.js";
 import {NotificationTypes as notificationType} from "@/util/notificationTypes.js";
 import {useAttemptsStore} from "@/stores/student/attempts.js";
-import {useFormStore} from "@/stores/student/form.js";
+import {useFormsStore} from "@/stores/student/forms.js";
+import router from "@/router/index.js";
+import {routes} from "@/router/routes.js";
 
 const route = useRoute();
 const attemptsStore = useAttemptsStore();
 const notification = useNotificationStore();
-const formStore = useFormStore();
+const formStore = useFormsStore();
 
 const respuestas = ref({});
 const {
   attempts, attemptsMessage, attemptsError, attemptsIsLoading
 } = storeToRefs(attemptsStore);
 
-const {formSelected, formSelectedMessage, formSelectedError, formSelectedIsLoading,} = storeToRefs(formStore);
+const {formSelected, message, error, isLoading,} = storeToRefs(formStore);
 
 // Notificaciones de formulario
-watch(formSelectedMessage, (nuevoValor) => {
+/*watch(message, (nuevoValor) => {
   notification.triggerToast(nuevoValor, notificationType.info);
-});
+});*/
 
 // Notificaciones de intentos
-watch(attemptsMessage, (nuevoValor) => {
+/*watch(attemptsMessage, (nuevoValor) => {
   notification.triggerToast(nuevoValor, notificationType.info);
-});
+});*/
 
 watch (attemptsError, () => {
   if (attemptsError.value) {
@@ -449,7 +448,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* Estilos opcionales para una barra de desplazamiento más bonita en la tabla y el historial */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -469,7 +467,6 @@ onMounted(() => {
   background: #94a3b8;
 }
 
-/* Asegurar que la fuente se vea bien si tienes Inter cargada, si no, usará la del sistema */
 .font-inter {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 }

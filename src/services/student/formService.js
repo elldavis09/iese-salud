@@ -1,5 +1,6 @@
-import ApiService from "@/services/apiService.js";
+import apiClient from "@/services/apiService.js";
 
+/*
 const formService = {
     async getFormById(id) {
         return new Promise((resolve, reject) => {
@@ -29,4 +30,4 @@ const formService = {
     }
 }
 
-export default formService;
+export default formService;*/

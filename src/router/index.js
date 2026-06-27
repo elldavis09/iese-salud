@@ -63,7 +63,7 @@ const router = createRouter({
  * Guard de navegación global para manejar la autenticación y redirección de rutas.
  * Este guard se ejecuta antes de cada cambio de ruta.
  */
-router.beforeEach(
+/*router.beforeEach(
     async (to, from, next) => {
         // Inicializar el store de autenticación y el store de usuario
         const authStore = useAuthStore();
@@ -88,7 +88,7 @@ router.beforeEach(
             next();
         }
     }
-);
+);*/
 
 export default router;
 

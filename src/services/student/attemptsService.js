@@ -1,5 +1,20 @@
 import ApiService from "@/services/apiService.js";
 
+export default {
+    async getFormAttempts(formId) {
+        const response = await ApiService.get(`student/formularios/${formId}/intentos`);
+        return response.data;
+    },
+    async getAttemptResponses(formId, attemptId) {
+        const response = await ApiService.get(`student/formularios/${formId}/intentos/${attemptId}`);
+        return response.data;
+    },
+    async deleteFormAttempt(formId, attemptId) {
+        const response = await ApiService.delete(`student/formularios/${formId}/intentos/${attemptId}`);
+        return response.data;
+    }
+}
+/*
 const attemptsService = {
     async getFormAttempts(formId) {
         return new Promise((resolve, reject) => {
@@ -39,4 +54,4 @@ const attemptsService = {
     }
 };
 
-export default attemptsService;
+export default attemptsService;*/

@@ -17,7 +17,6 @@ const fetchInterpretacion = async () => {
 }
 
 onMounted(() => {
-  // interpretation.clearInterpretaciones();
   fetchInterpretacion();
 });
 </script>
