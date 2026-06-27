@@ -11,16 +11,21 @@ import ContentPage from "@/components/ContentPage.vue";
 import PageContent from "@/components/PageContent.vue";
 import Loading from "@/components/Loading.vue";
 import StudentFormItem from "@/components/StudentFormItem.vue";
+import {useAuthStore} from "@/stores/authStore.js";
 
+const authStore = useAuthStore();
 const formsStore = useFormulariosStore();
-const notification = useNotificationStore();
 const router = useRouter();
 
 const {formsIsLoading, formsError, formsMessage, forms} = storeToRefs(formsStore);
-const viewMode = ref('grid');
 
 const getForms = async () => {
   await formsStore.getForms();
+};
+
+const logout = async () => {
+  authStore.logout();
+  await router.push(routes.login);
 };
 
 onMounted(() => {
@@ -31,12 +36,11 @@ onMounted(() => {
 
 <template>
   <PageContent>
-    <StudentMenu />
+    <StudentMenu @logout="logout"/>
     <ContentPage>
       <div class="p-8">
         <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
           <div class="xl:col-span-8 space-y-6">
-
             <section class="bg-white rounded-lg border border-[var(--border-color)] shadow-sm overflow-hidden">
               <div class="p-6 border-b border-[var(--border-color)] flex items-center justify-between">
                 <h2 class="text-lg font-bold text-slate-900">Mis Formularios</h2>

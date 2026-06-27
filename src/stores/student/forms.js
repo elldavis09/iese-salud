@@ -1,6 +1,6 @@
 import {ref} from 'vue';
 import {defineStore} from 'pinia';
-import formsService from '@/services/student/formsService.js'; // Servicio para manejar formularios
+import formsService from '@/services/student/formsService.js';
 
 export const useFormulariosStore = defineStore('formularios', () => {
     const forms = ref([]);

@@ -1,6 +1,26 @@
-// En esta clase se define la lógica para interactuar con una API externa.
+import axios from 'axios';
 
-class ApiService {
+// Crear una instancia de Axios con la URL base y los encabezados predeterminados
+const apiClient = axios.create({
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+});
+
+// Interceptor para agregar el token de autenticación a cada solicitud
+apiClient.interceptors.request.use(function (config) {
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+        config.headers['authorization'] = `Bearer ${token}`;
+    }
+    return config;
+})
+
+export default apiClient;
+
+/*class ApiService {
     API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
     async fetchData(endpoint) {
@@ -14,9 +34,6 @@ class ApiService {
                 }
             });
             console.log(`API_SERVICE_GET: ${response}`);
-            /*if (!response.ok) {
-                throw new Error(`Error fetching data: ${response.statusText}`);
-            }*/
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || response.statusText);
@@ -76,4 +93,4 @@ class ApiService {
     }
 }
 
-export default ApiService;
+export default ApiService; */

@@ -2,7 +2,7 @@
 <script setup>
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useAuthStore } from '../../stores/auth.js';
+import { useAuthStore } from '../../stores/authStore.js';
 import BaseInput from '../../components/BaseInput.vue';
 
 const store = useAuthStore();

@@ -1,5 +1,9 @@
 <script setup>
+const emit = defineEmits(['logout']);
 
+const handleLogout = () => {
+  emit('logout');
+};
 </script>
 
 <template>
@@ -42,7 +46,9 @@
       </a>
     </nav>
     <div class="p-4 border-t border-white/10">
-      <button class="flex items-center gap-3 px-4 py-3 w-full text-slate-400 hover:text-white transition-all">
+      <button
+          @click = "handleLogout"
+          class="flex items-center gap-3 px-4 py-3 w-full text-slate-400 hover:text-white transition-all">
         <span class="material-symbols-outlined">logout</span>
         <span class="font-medium">Cerrar Sesión</span>
       </button>

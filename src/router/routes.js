@@ -1,6 +1,6 @@
 // Definir un objeto de rutas para mantener la coherencia
 // Solo se define la ruta sin los componentes ni meta
-// Si las rutas aceptan paraámetros dinámicos, se pueden definir como funciones
+// Si las rutas aceptan parámetros dinámicos, se pueden definir como funciones
 export const routes = {
     login: '/login',
     register: '/register',

@@ -7,9 +7,9 @@ export const useAuthStore = defineStore('auth', () => {
     const token = ref(localStorage.getItem('auth_token') || null);
     const isLoading = ref(false);
     const error = ref(null);
-    const message = ref(null);
 
     const isAuthenticated = computed(() => !!token.value);
+    const getUserName = computed(() => user.value ? user.value.full_name : null);
 
     async function initializeAuth() {
         if (token.value && !user.value) {
@@ -22,40 +22,24 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
-    async function loginAction(email, password) {
+    async function loginAction(credentials) {
         isLoading.value = true;
         error.value = null;
         try {
-            const response = await authService.login(email, password);
-            user.value = response.data.user;
-            token.value = response.data.token;
+            // Llamar al servicio de autenticación para iniciar sesión
+            const data = await authService.login(credentials);
 
-            localStorage.setItem('auth_token', token.value);
-            return true;
+            // Actualizamos el estado del store con la información del usuario y el token
+            user.value = data.data.user;
+            token.value = localStorage.getItem('token');
+
+            return data;
         } catch (err) {
-            error.value = err.message;
-            return false;
+            error.value = err.response?.data?.message || 'Error al iniciar sesión';
+            return err;
         } finally {
             isLoading.value = false;
         }
-    }
-
-    async function registerAction(payload) {
-        isLoading.value = true;
-        error.value = null;
-        return authService.register(payload)
-            .then((response) => {
-                token.value = response.token;
-                localStorage.setItem('auth_token', response.token);
-                return true;
-            })
-            .catch((err) => {
-                error.value = err.response?.data?.message || err.message || "Error al registrar.";
-                return false;
-            })
-            .finally(() => {
-                isLoading.value = false;
-            });
     }
 
     async function registerStudent(payload) {
@@ -100,6 +84,21 @@ export const useAuthStore = defineStore('auth', () => {
         );
     }
 
+    async function getCurrentUser() {
+        if (!token.value) {
+            return null;
+        }
+        try {
+            const response = await authService.getCurrentUser();
+            user.value = response.data;
+            return user.value;
+        } catch (err) {
+            console.error("Error fetching current user:", err);
+            logout();
+            return null;
+        }
+    }
+
     function logout() {
         // Logout server-side
         try {
@@ -119,7 +118,6 @@ export const useAuthStore = defineStore('auth', () => {
         token,
         isLoading,
         error,
-        message,
         isAuthenticated,
         initializeAuth,
         loginAction,

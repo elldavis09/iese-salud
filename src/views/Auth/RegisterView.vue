@@ -3,7 +3,7 @@
 import {reactive, ref, watch} from 'vue';
 import {useRouter} from 'vue-router';
 import {storeToRefs} from 'pinia';
-import {useAuthStore} from '@/stores/auth.js';
+import {useAuthStore} from '@/stores/authStore.js';
 import ToggleTutorStudent from "@/components/ToggleTutorStudent.vue";
 import {useNotificationStore} from "@/stores/notification.js";
 import {NotificationTypes as notificationType} from "@/util/notificationTypes.js";

@@ -42,7 +42,6 @@ const getColorBadge = (status) => {
         </div>
       </div>
     </div>
-    <span class="material-symbols-outlined text-slate-600">arrow_right</span>
   </div>
 </template>
 
