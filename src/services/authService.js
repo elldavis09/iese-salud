@@ -7,6 +7,7 @@ export default {
         if (response.data && response.data.data.token) {
             localStorage.setItem('auth_token', response.data.data.token);
         }
+    
         return response.data;
     },
     async registerStudent(userData) {

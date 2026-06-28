@@ -8,6 +8,7 @@ import {useAttemptsStore} from "@/stores/student/attempts.js";
 import {useFormsStore} from "@/stores/student/forms.js";
 import router from "@/router/index.js";
 import {routes} from "@/router/routes.js";
+import StatusFormSection from "@/components/Form/StatusFormSection.vue";
 
 const route = useRoute();
 const attemptsStore = useAttemptsStore();
@@ -22,16 +23,16 @@ const {
 const {formSelected, message, error, isLoading,} = storeToRefs(formStore);
 
 // Notificaciones de formulario
-/*watch(message, (nuevoValor) => {
+watch(message, (nuevoValor) => {
   notification.triggerToast(nuevoValor, notificationType.info);
-});*/
+});
 
 // Notificaciones de intentos
-/*watch(attemptsMessage, (nuevoValor) => {
+watch(attemptsMessage, (nuevoValor) => {
   notification.triggerToast(nuevoValor, notificationType.info);
-});*/
+});
 
-watch (attemptsError, () => {
+watch(attemptsError, () => {
   if (attemptsError.value) {
     notification.triggerToast(attemptsError.value, notificationType.error);
   }
@@ -154,21 +155,7 @@ onMounted(() => {
                   </p>
                 </div>
                 <!-- Componente de estado -->
-                <div class="flex-shrink-0">
-                  <span
-                      class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold shadow-sm ring-1 ring-inset transition-all"
-                      :class="formSelected?.activo
-                      ? 'bg-teal-50 text-teal-700 ring-teal-600/20'
-                      : 'bg-rose-50 text-rose-700 ring-rose-600/20'">
-                    <span class="relative flex h-2.5 w-2.5 mr-2">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-                            :class="formSelected?.activo ? 'bg-teal-400' : 'bg-rose-400'"></span>
-                      <span class="relative inline-flex rounded-full h-2.5 w-2.5"
-                            :class="formSelected?.activo ? 'bg-teal-600' : 'bg-rose-500'"></span>
-                    </span>
-                    {{ formSelected?.activo ? 'Activo' : 'Inactivo' }}
-                  </span>
-                </div>
+                <StatusFormSection status="formSelected?.activo"/>
               </div>
             </div>
 
@@ -365,7 +352,8 @@ onMounted(() => {
             <div class="border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50/30 p-8">
               <h3 class="text-xl font-bold text-gray-900 mb-2">Finalizar</h3>
               <p class="text-gray-600 mb-6 leading-relaxed">¿Todo listo? Envía tus respuestas.</p>
-              <button class="w-full flex justify-center items-center px-6 py-4 border border-transparent text-lg font-bold rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg transform transition-all active:scale-[0.98]">
+              <button
+                  class="w-full flex justify-center items-center px-6 py-4 border border-transparent text-lg font-bold rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg transform transition-all active:scale-[0.98]">
                 Enviar Formulario Ahora
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
@@ -382,7 +370,8 @@ onMounted(() => {
         <div class="bg-white rounded-2xl shadow-md border border-gray-200/60 overflow-hidden">
           <!-- Is loading indicator -->
           <div v-if="attemptsIsLoading" class="p-6 flex justify-center items-center">
-            <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor"
                     d="M4 12a8 8 0 018-8v8H4z"></path>

@@ -11,15 +11,19 @@ export const useAuthStore = defineStore('auth', () => {
     const isAuthenticated = computed(() => !!token.value);
     const getUserName = computed(() => user.value ? user.value.full_name : null);
 
-    async function initializeAuth() {
-        if (token.value && !user.value) {
-            try {
-                const response = await authService.getCurrentUser();
-                console.log(response.data)
-                user.value = response.data;
-            } catch (err) {
-                logout();
-            }
+    async function checkAuthStatus() {
+        // Verificar si hay un token en el almacenamiento local
+        if (!token.value) return false;
+
+        try {
+            // Intentar obtener la información del usuario actual usando el token
+            console.log('Obtaining current user with token');
+            const data = await authService.getCurrentUser();
+            user.value = data.data;
+        } catch (err) {
+            // Si hay un error (por ejemplo, token inválido o expirado), limpiar el estado y redirigir al login
+            console.error('Session invalid or expired:', err);
+            logout();
         }
     }
 
@@ -32,7 +36,8 @@ export const useAuthStore = defineStore('auth', () => {
 
             // Actualizamos el estado del store con la información del usuario y el token
             user.value = data.data.user;
-            token.value = localStorage.getItem('token');
+            token.value = localStorage.getItem('auth_token');
+            console.log("Login successful. User:", user.value, "Token:", token.value);
 
             return data;
         } catch (err) {
@@ -120,7 +125,7 @@ export const useAuthStore = defineStore('auth', () => {
         isLoading,
         error,
         isAuthenticated,
-        initializeAuth,
+        checkAuthStatus,
         loginAction,
         registerStudent,
         registerTutor,

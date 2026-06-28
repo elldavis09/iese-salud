@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html class="light" lang="es"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Dashboard del Estudiante | Portal Académico</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <style type="text/tailwindcss">
+        :root {
+            --primary-navy: #0f172a;
+            --accent-blue: #2563eb;
+            --success-green: #10b981;
+            --sidebar-width: 260px;
+            --bg-gray: #f8fafc;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-gray);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--accent-blue);
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "navy": "#0f172a",
+                        "institutional": "#1e293b",
+                        "primary-accent": "#2563eb",
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="text-slate-900 min-h-screen">
+
+<main class="lg:ml-[var(--sidebar-width)] min-h-screen">
+    <header class="h-16 bg-white border-b border-[var(--border-color)] flex items-center justify-between px-8 sticky top-0 z-40">
+        <div class="flex items-center gap-2 text-slate-500">
+            <span class="text-sm font-medium">Estudiante</span>
+            <span class="material-symbols-outlined text-sm">chevron_right</span>
+            <span class="text-sm font-semibold text-slate-900">Panel de Control</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <button class="text-slate-400 hover:text-institutional transition-colors relative">
+                <span class="material-symbols-outlined">notifications</span>
+                <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+            <div class="h-8 w-px bg-slate-200"></div>
+            <div class="flex items-center gap-3">
+                <div class="text-right hidden sm:block">
+                    <p class="text-sm font-bold text-slate-900 leading-none">Mateo García</p>
+                    <p class="text-[11px] text-slate-500 mt-1 uppercase font-medium">Ingeniería de Software</p>
+                </div>
+                <img alt="Perfil" class="w-9 h-9 rounded-full object-cover border border-slate-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOUnrQw_Mjm9sqaqDqCW6p-Ts3h24zN6PJLAAcHjjDsh_Dl5AVVxhHo_n-JdRnpTr4OrId7pMbNQICSaFc-8QAd4t2HAcmslPT2mcm7fjl9zoQn8pkWSx5tNsEKQmCGFCX9pDrc-61tVT7Gk1eMsE2EzqyWau_OaMITuLcDGvYa3HCdJeVFa-_8qB_NHuOCIxGkHN84StToFmuXZ8pbil6bdwYxFeuhHDzqfHoAm3oOQbp7iiq8rsdij4W-R7lsB7gimmVYNEXiDA"/>
+            </div>
+        </div>
+    </header>
+    <div class="p-8">
+        <div class="mb-8">
+            <h1 class="text-2xl font-bold text-slate-900">Dashboard del Estudiante</h1>
+            <p class="text-slate-500 mt-1">Bienvenido, Mateo. Tienes 2 formularios pendientes por completar hoy.</p>
+        </div>
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+            <div class="xl:col-span-8 space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-white p-6 rounded-lg border border-[var(--border-color)] shadow-sm">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-slate-500 uppercase tracking-wider">Completados</span>
+                            <span class="material-symbols-outlined text-emerald-500">check_circle</span>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-2xl font-bold text-slate-900">12</span>
+                            <span class="text-xs text-emerald-600 font-medium">+2 este mes</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border border-[var(--border-color)] shadow-sm">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-slate-500 uppercase tracking-wider">Pendientes</span>
+                            <span class="material-symbols-outlined text-amber-500">pending</span>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-2xl font-bold text-slate-900">02</span>
+                            <span class="text-xs text-slate-400 font-medium">Vencen pronto</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border border-[var(--border-color)] shadow-sm">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-slate-500 uppercase tracking-wider">Promedio</span>
+                            <span class="material-symbols-outlined text-institutional">grade</span>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-2xl font-bold text-slate-900">9.2</span>
+                            <span class="text-xs text-blue-600 font-medium">Top 15%</span>
+                        </div>
+                    </div>
+                </div>
+                <section class="bg-white rounded-lg border border-[var(--border-color)] shadow-sm overflow-hidden">
+                    <div class="p-6 border-b border-[var(--border-color)] flex items-center justify-between">
+                        <h2 class="text-lg font-bold text-slate-900">Mis Formularios</h2>
+                        <div class="flex gap-2">
+                            <button class="px-3 py-1.5 text-xs font-semibold bg-slate-100 text-slate-900 rounded border border-slate-200">Todos</button>
+                            <button class="px-3 py-1.5 text-xs font-semibold text-slate-500 hover:bg-slate-50 rounded transition-all">Pendientes</button>
+                        </div>
+                    </div>
+                    <div class="divide-y divide-slate-100">
+                        <div class="p-6 hover:bg-slate-50 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 bg-slate-100 rounded flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined text-slate-600">article</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-900">Examen Parcial: Historia del Arte</h3>
+                                    <p class="text-sm text-slate-500">Unidad 3: El Renacimiento en Italia • 45 min</p>
+                                    <div class="mt-2 flex items-center gap-2">
+                                        <span class="px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded uppercase">Pendiente</span>
+                                        <span class="text-[10px] text-slate-400 font-medium uppercase">Límite: Mañana</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="bg-institutional text-white px-6 py-2.5 rounded font-bold text-sm hover:bg-navy transition-all">
+                                Iniciar Examen
+                            </button>
+                        </div>
+                        <div class="p-6 hover:bg-slate-50 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 bg-blue-50 rounded flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined text-blue-600">functions</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-900">Práctica: Cálculo Diferencial</h3>
+                                    <p class="text-sm text-slate-500">Ejercicios de aplicación de derivadas • 30 min</p>
+                                    <div class="mt-2 flex items-center gap-2">
+                                        <span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-bold rounded uppercase">En Curso</span>
+                                        <span class="text-[10px] text-slate-400 font-medium uppercase">Progreso: 40%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="bg-institutional text-white px-6 py-2.5 rounded font-bold text-sm hover:bg-navy transition-all">
+                                Continuar
+                            </button>
+                        </div>
+                        <div class="p-6 hover:bg-slate-50 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 bg-emerald-50 rounded flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined text-emerald-600">language</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-900">Quiz: Gramática Inglesa I</h3>
+                                    <p class="text-sm text-slate-500">Revisión de tiempos verbales • Nota: 9.5/10</p>
+                                    <div class="mt-2 flex items-center gap-2">
+                                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[10px] font-bold rounded uppercase">Completado</span>
+                                        <span class="text-[10px] text-slate-400 font-medium uppercase">12 Oct 2023</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="text-institutional border border-slate-200 px-6 py-2.5 rounded font-bold text-sm hover:bg-slate-50 transition-all">
+                                Ver Revisión
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="xl:col-span-4 space-y-6">
+                <div class="bg-white rounded-lg border border-[var(--border-color)] shadow-sm overflow-hidden">
+                    <div class="h-20 bg-institutional"></div>
+                    <div class="px-6 pb-6">
+                        <div class="relative -mt-10 mb-4">
+                            <img alt="Avatar" class="w-20 h-20 rounded-lg object-cover border-4 border-white shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA90aF-zCI0cBfctTGOpB9RNroXiixY3FSFnnQc92CEJ56nIxJ5OWStiT47sKyi3My4fPoUZPB4KnX_njMLKx3i_dl4zhdDAvNuFsTj1mPE92cHmRnwAz8pa4MHNslSvreEHmBxedyqW5Imcv38p_ZG3bjLFzFMYQ3UjuiuwlmoM2Z6C1bqMzlIICebkvGfEhBXg-pidJj912YYT6vAmG24qdFhiCgubhwdmSJPfcNArCcTXojyXvn-8PXIvaLzSE_FaatSxTd2Gmk"/>
+                        </div>
+                        <h2 class="text-lg font-bold text-slate-900">Mateo García</h2>
+                        <p class="text-sm text-slate-500">ID: 2024-0892 • Software</p>
+                        <div class="mt-6 space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs font-bold mb-1.5">
+                                    <span class="text-slate-500 uppercase">Progreso de Carrera</span>
+                                    <span class="text-institutional">64%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-institutional h-full" style="width: 64%"></div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 pt-2">
+                                <div class="p-3 bg-slate-50 rounded border border-slate-100">
+                                    <p class="text-[10px] text-slate-400 font-bold uppercase">Créditos</p>
+                                    <p class="text-base font-bold text-slate-900">142 / 220</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 rounded border border-slate-100">
+                                    <p class="text-[10px] text-slate-400 font-bold uppercase">Ranking</p>
+                                    <p class="text-base font-bold text-slate-900">#12 / 85</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg border border-[var(--border-color)] shadow-sm">
+                    <div class="p-4 border-b border-[var(--border-color)]">
+                        <h2 class="font-bold text-slate-900 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-institutional text-xl">stars</span>
+                            Logros Recientes
+                        </h2>
+                    </div>
+                    <div class="p-4 space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="mt-1 w-2 h-2 rounded-full bg-emerald-500"></div>
+                            <div>
+                                <p class="text-sm font-bold text-slate-900">Excelencia en Matemáticas</p>
+                                <p class="text-xs text-slate-500">Calificación 10.0 en el último examen parcial.</p>
+                                <p class="text-[10px] text-slate-400 mt-1 uppercase">Ayer</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="mt-1 w-2 h-2 rounded-full bg-blue-500"></div>
+                            <div>
+                                <p class="text-sm font-bold text-slate-900">Colaborador Destacado</p>
+                                <p class="text-xs text-slate-500">Participación activa en foros de Programación.</p>
+                                <p class="text-[10px] text-slate-400 mt-1 uppercase">Hace 3 días</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-[var(--border-color)]">
+                        <button class="w-full text-xs font-bold text-institutional hover:underline">VER TODO EL HISTORIAL</button>
+                    </div>
+                </div>
+                <div class="bg-institutional text-white p-6 rounded-lg shadow-md relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 opacity-10">
+                        <span class="material-symbols-outlined !text-8xl">lightbulb</span>
+                    </div>
+                    <h4 class="font-bold mb-2 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">info</span>
+                        Tip de Estudio
+                    </h4>
+                    <p class="text-sm text-slate-300 leading-relaxed italic">
+                        "Organiza tus sesiones de estudio con la técnica Pomodoro para mantener un rendimiento alto durante los exámenes parciales."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<nav class="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 flex justify-around p-2 lg:hidden z-50">
+    <button class="flex flex-col items-center gap-1 text-institutional">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="text-[10px] font-bold">Inicio</span>
+    </button>
+    <button class="flex flex-col items-center gap-1 text-slate-400">
+        <span class="material-symbols-outlined">assignment</span>
+        <span class="text-[10px] font-bold">Tareas</span>
+    </button>
+    <button class="flex flex-col items-center gap-1 text-slate-400">
+        <span class="material-symbols-outlined">person</span>
+        <span class="text-[10px] font-bold">Perfil</span>
+    </button>
+</nav>
+
+</body></html>
