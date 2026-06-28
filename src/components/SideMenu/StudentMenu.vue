@@ -10,25 +10,23 @@ const props = defineProps({
     default: ''
   }
 });
+
 const emit = defineEmits(['logout', 'optionSelected']);
 
-const handleLogout = () => {
-  emit('logout');
-};
-
-const handleOptionSelected = (item) => {
-  emit('optionSelected', item);
-}
+const handleLogout = () => emit('logout');
+const handleOptionSelected = (item) => emit('optionSelected', item);
 </script>
 
 <template>
   <aside
-      class="fixed left-0 top-0 h-full w-[var(--sidebar-width,16rem)] bg-[#064459] text-white hidden lg:flex flex-col z-50 shadow-xl">
-    <HeaderSection/>
-    <OptionsSection @optionSelected="handleOptionSelected" />
+      class="fixed left-0 top-0 h-full w-[var(--sidebar-width,16rem)] bg-[#001E2B] text-white hidden lg:flex flex-col z-50 shadow-2xl transition-all duration-300">
+    <HeaderSection />
+    
+    <OptionsSection 
+      :initial-option="props.optionSelected" 
+      @optionSelected="handleOptionSelected" 
+    />
+    
     <FooterSection @logout="handleLogout"/>
   </aside>
 </template>
-
-<style scoped>
-</style>
