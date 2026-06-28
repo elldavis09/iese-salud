@@ -37,7 +37,7 @@ const routesRouter = [
     {
         path: '/student/forms/:id',
         name: 'StudentForm',
-        component: () => import('@/views/student/FormView.vue'),
+        component: () => import('@/views/student/Forms/FormView.vue'),
         meta: { requiresAuth: true, allowedRoles: [3] }
     },
     {
