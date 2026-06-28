@@ -31,7 +31,7 @@ const routesRouter = [
     {
         path: '/student/dashboard',
         name: 'StudentDashboard',
-        component: () => import('@/views/student/DashboardView.vue'),
+        component: () => import('@/views/student/Dashboard/DashboardView.vue'),
         meta: { requiresAuth: true, allowedRoles: [3] }
     },
     {

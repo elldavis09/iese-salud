@@ -19,7 +19,7 @@ const handleOptionSelected = (item) => emit('optionSelected', item);
 
 <template>
   <aside
-      class="fixed left-0 top-0 h-full w-[var(--sidebar-width,16rem)] bg-[#001E2B] text-white hidden lg:flex flex-col z-50 shadow-2xl transition-all duration-300">
+      class="fixed left-0 top-0 h-full w-[var(--sidebar-width,16rem)] bg-sidebar-bg text-white hidden lg:flex flex-col z-50">
     <HeaderSection />
     
     <OptionsSection 

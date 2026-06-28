@@ -1,17 +1,16 @@
 <script setup>
-import {onMounted} from 'vue';
+import {onMounted, ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {storeToRefs} from 'pinia';
-import {useFormsStore} from "@/stores/student/forms.js";
 import {routes} from "@/router/routes.js";
-import {ref} from 'vue';
+import {useFormsStore} from "@/stores/student/forms.js";
+import {useAuthStore} from "@/stores/authStore.js";
 import StudentMenu from "@/components/SideMenu/StudentMenu.vue";
 import ContentPage from "@/components/ContentPage.vue";
 import PageContent from "@/components/PageContent.vue";
-import {useAuthStore} from "@/stores/authStore.js";
-import FormsContent from "@/views/student/FormsContent.vue";
 import StudentScreens from "@/views/student/StudentScreens.js";
-import ProfileContent from "@/views/student/ProfileContent.vue";
+import FormsContent from "@/views/student/Dashboard/FormsContent.vue";
+import ProfileContent from "@/views/student/Dashboard/ProfileContent.vue";
 
 const authStore = useAuthStore();
 const formsStore = useFormsStore();

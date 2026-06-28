@@ -18,7 +18,6 @@ const menuOptions = ref([
   {name: 'Configuración', icon: 'settings', value: StudentScreens.SETTINGS},
 ]);
 
-// Controlamos el estado activo con una sola variable reactiva
 const activeOption = ref(props.initialOption || StudentScreens.DASHBOARD);
 
 const handleMenuItemClick = (value) => {
@@ -28,25 +27,35 @@ const handleMenuItemClick = (value) => {
 </script>
 
 <template>
-  <nav class="flex-1 px-4 py-6 overflow-y-auto">
-    <ul class="space-y-1.5">
+  <nav class="flex-1 px-4 py-2 overflow-y-auto">
+    <ul class="space-y-2">
       <li v-for="option in menuOptions" :key="option.name">
+        <!-- Agregamos "group" y "hover:translate-x-1" para un sutil movimiento a la derecha -->
         <button
           @click="handleMenuItemClick(option.value)"
-          class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group outline-none focus-visible:ring-2 focus-visible:ring-[#ac111f]"
+          class="group w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 ease-out outline-none"
           :class="[
             activeOption === option.value
-              ? 'bg-gradient-to-r from-[#ac111f]/20 to-transparent text-white border-l-4 border-[#ac111f]'
-              : 'text-slate-400 hover:bg-white/5 hover:text-slate-100 border-l-4 border-transparent'
+              ? 'bg-sidebar-hover text-sidebar-active shadow-sm'
+              : 'text-sidebar-text hover:bg-sidebar-hover/60 hover:text-white hover:translate-x-1'
           ]"
         >
-          <span
-            class="material-symbols-outlined transition-transform duration-300 group-hover:scale-110"
-            :class="activeOption === option.value ? 'text-[#ac111f]' : 'text-slate-500 group-hover:text-slate-300'"
+          <!-- El ícono crece un poco (scale-110) y toma un tono azul suave al hacer hover si no está activo -->
+          <span 
+            class="material-symbols-outlined text-[22px] transition-transform duration-300"
+            :class="[
+              activeOption === option.value ? 'text-pastel-blue' : 'group-hover:text-pastel-blue/80 group-hover:scale-110'
+            ]"
           >
             {{ option.icon }}
           </span>
-          <span class="font-medium text-sm tracking-wide">{{ option.name }}</span>
+          
+          <span 
+            class="text-sm tracking-wide transition-colors"
+            :class="activeOption === option.value ? 'font-bold' : 'font-medium group-hover:font-semibold'"
+          >
+            {{ option.name }}
+          </span>
         </button>
       </li>
     </ul>

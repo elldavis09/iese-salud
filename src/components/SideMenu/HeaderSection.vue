@@ -2,17 +2,19 @@
 
 </script>
 
+<script setup>
+</script>
+
 <template>
-  <header class="p-6 border-b border-white/5 relative overflow-hidden">
-    <div class="flex items-center gap-4 relative z-10">
-      <div class="bg-gradient-to-br from-[#ac111f] to-[#8a0e19] p-2.5 rounded-xl shadow-lg ring-1 ring-white/10">
-        <span class="material-symbols-outlined text-white text-xl">school</span>
+  <header class="p-6 pt-8 mb-4">
+    <div class="flex items-center gap-4 pl-2">
+      <div class="text-pastel-blue">
+        <span class="material-symbols-outlined text-3xl">school</span>
       </div>
       
-      <div class="flex flex-col">
-        <span class="font-black text-2xl tracking-wider text-white">IESE</span>
-        <span class="text-[10px] text-slate-400 uppercase tracking-widest -mt-1 font-semibold">Plataforma</span>
-      </div>
+      <span class="font-extrabold text-2xl tracking-wide text-white">
+        IESE
+      </span>
     </div>
   </header>
 </template>

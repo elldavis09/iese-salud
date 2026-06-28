@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colores base del Sidebar */
+  --color-sidebar-bg: #1E1E24;
+  --color-sidebar-hover: #2A2A32;
+  --color-sidebar-text: #8B8B93;
+  --color-sidebar-active: #FFFFFF;
+
+  /* Colores pastel para tus tarjetas o dashboard */
+  --color-pastel-blue: #D4EBF8;
+  --color-pastel-pink: #F3E1EB;
+  --color-pastel-purple: #E3D7F4;
+  --color-pastel-green: #D1F4E0;
+
+  /* Tu color institucional (por si lo necesitas) */
+  --color-brand-red: #ac111f;
+}
