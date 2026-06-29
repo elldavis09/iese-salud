@@ -32,7 +32,14 @@ const routesRouter = [
         path: '/student/dashboard',
         name: 'StudentDashboard',
         component: () => import('@/views/student/Dashboard/DashboardView.vue'),
-        meta: { requiresAuth: true, allowedRoles: [3] }
+        meta: { requiresAuth: true, allowedRoles: [3] },
+        children: [
+            { path: '', redirect: '/student/dashboard/home' },
+            { path: 'home', name: 'StudentDashboardHome', component: () => import('@/views/student/Dashboard/DashboardHome.vue') },
+            { path: 'forms', name: 'StudentDashboardForms', component: () => import('@/views/student/Dashboard/FormsContent.vue') },
+            { path: 'profile', name: 'StudentDashboardProfile', component: () => import('@/views/student/Dashboard/ProfileContent.vue') },
+            { path: 'settings', name: 'StudentDashboardSettings', component: () => import('@/views/student/Dashboard/SettingsContent.vue') },
+        ]
     },
     {
         path: '/student/forms/:id',
