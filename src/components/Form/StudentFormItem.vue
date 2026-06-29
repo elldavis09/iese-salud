@@ -27,42 +27,37 @@ const getColorBadge = (status) => {
 
 <template>
   <article
-    class="group flex flex-col h-full p-5 transition-all duration-300 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md hover:border-slate-300 hover:-translate-y-1"
-  >
-    <!-- Encabezado: Icono y Estado -->
-    <header class="flex items-start justify-between w-full gap-3 mb-4">
-      <div class="flex items-center justify-center flex-shrink-0 w-12 h-12 transition-colors duration-300 rounded-xl bg-slate-100 group-hover:bg-[#064459]/10">
-        <span class="transition-colors duration-300 material-symbols-outlined text-slate-600 group-hover:text-[#064459]">
-          article
+    class="h-full rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5">
+    <div class="column items-start gap-4">
+      <div class="flex items-center gap-3 w-full justify-between">
+        <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-slate-600">article</span>
+        </div>
+
+        <span :class="getColorBadge(form.intentos_count)">
+          {{ getStatusBadge(form.intentos_count) }}
         </span>
       </div>
+      <div class="min-w-0 flex-1">
+        <div class="flex items-start justify-between gap-3">
+          <h3 class="font-bold text-slate-900 line-clamp-2">
+            {{ form.nombre }}
+          </h3>
+        </div>
 
-      <!-- Asegúrate de que tu método getColorBadge devuelva padding, text-size y bordes redondeados (ej. px-3 py-1 text-xs font-medium rounded-full) -->
-      <span :class="getColorBadge(form.intentos_count)">
-        {{ getStatusBadge(form.intentos_count) }}
-      </span>
-    </header>
-
-    <!-- Contenido principal -->
-    <div class="flex flex-col flex-1 min-w-0">
-      <h3 class="text-base font-bold leading-tight text-slate-900 line-clamp-2">
-        {{ form.nombre }}
-      </h3>
-
-      <p class="mt-2 text-sm text-slate-500 line-clamp-3">
-        {{ form.descripcion }}
-      </p>
+        <p class="mt-2 text-sm text-slate-500 line-clamp-3">
+          {{ form.descripcion }}
+        </p>
+      </div>
+      <!-- Botones de acción -->
+      <div class="flex items-center gap-2">
+        <button
+          class="px-4 py-1.5 text-xs font-bold bg-[#064459] text-white rounded-md shadow-sm transition-colors hover:bg-[#064459]/90"
+          @click="$emit('click')">
+          Ver Formulario
+        </button>
+      </div>
     </div>
-
-    <!-- Pie: Botones de acción -->
-    <footer class="flex items-center mt-5">
-      <button
-        class="px-5 py-2 text-sm font-semibold text-white transition-colors duration-200 bg-[#064459] rounded-lg shadow-sm hover:bg-[#064459]/90 focus:outline-none focus:ring-2 focus:ring-[#064459] focus:ring-offset-2"
-        @click="$emit('click')"
-      >
-        Ver Formulario
-      </button>
-    </footer>
   </article>
 </template>
 
