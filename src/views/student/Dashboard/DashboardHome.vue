@@ -1,4 +1,5 @@
 <script setup>
+import PageContent from "@/components/PageContent.vue";
 </script>
 
 <template>

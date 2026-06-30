@@ -30,15 +30,18 @@ const routesRouter = [
     // Rutas protegidas
     {
         path: '/student/dashboard',
-        name: 'StudentDashboard',
         component: () => import('@/views/student/Dashboard/DashboardView.vue'),
         meta: { requiresAuth: true, allowedRoles: [3] },
         children: [
-            { path: '', redirect: '/student/dashboard/home' },
+            // { path: '', name: 'StudentDashboardHome', redirect: '/student/dashboard/home' },
             { path: 'home', name: 'StudentDashboardHome', component: () => import('@/views/student/Dashboard/DashboardHome.vue') },
             { path: 'forms', name: 'StudentDashboardForms', component: () => import('@/views/student/Dashboard/FormsContent.vue') },
             { path: 'profile', name: 'StudentDashboardProfile', component: () => import('@/views/student/Dashboard/ProfileContent.vue') },
+            { path: 'profile/data', name: 'StudentDashboardProfileData', component: () => import('@/views/student/Dashboard/ProfileData.vue') },
+            { path: 'profile/docs', name: 'StudentDashboardProfileDocs', component: () => import('@/views/student/Dashboard/ProfileDocs.vue') },
             { path: 'settings', name: 'StudentDashboardSettings', component: () => import('@/views/student/Dashboard/SettingsContent.vue') },
+            // Redirección para cualquier ruta no encontrada dentro del dashboard del estudiante
+            { path: ':pathMatch(.)', redirect: { name: 'StudentDashboardForms' } }
         ]
     },
     {

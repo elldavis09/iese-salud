@@ -13,7 +13,7 @@ export const useAttemptsStore
             attemptsIsLoading.value = true;
             attemptsError.value = null;
             try {
-                const data = await attemptsService.getFormAttempts(formId);
+                const data = await attemptsService.getMyAttemptsByFormId(formId);
                 attemptsMessage.value = data.message;
                 attempts.value = data.data;
             } catch (err) {
@@ -24,11 +24,11 @@ export const useAttemptsStore
             }
         }
 
-        async function getAttemptResponses(formId, attemptId) {
+        async function getAttemptResponses(attemptId) {
             attemptsIsLoading.value = true;
             attemptsError.value = null;
             try {
-                const data = await attemptsService.getAttemptResponses(formId, attemptId);
+                const data = await attemptsService.getMyAnswersByAttempt(attemptId);
                 attemptsMessage.value = data.message;
                 return data.data;
             } catch (err) {
