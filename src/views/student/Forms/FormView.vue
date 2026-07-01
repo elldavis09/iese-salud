@@ -8,8 +8,10 @@ import { useAttemptsStore } from "@/stores/student/attempts.js";
 import { useFormsStore } from "@/stores/student/forms.js";
 import router from "@/router/index.js";
 import { routes } from "@/router/routes.js";
-import HeaderForm from "@/components/Form/HeaderForm.vue";
-import SingleChoice from "@/components/Form/SingleChoice.vue";
+import InputTypeText from "@/components/Form/InputTypeText.vue";
+import InputTypeDropdown from "@/components/Form/InputTypeDropdown.vue";
+import InputTypeBoolean from '@/components/Form/InputTypeBoolean.vue';
+import InputTypeEscala from '@/components/Form/InputTypeEscala.vue';
 
 const route = useRoute();
 const attemptsStore = useAttemptsStore();
@@ -152,6 +154,10 @@ const submitForm = async () => {
   }
 };
 
+const handleRespuestaUpdate = (updatedRespuestas) => {
+  respuestas.value = updatedRespuestas;
+};
+
 onMounted(() => {
   const formId = route.params.id;
   if (formId) {
@@ -187,7 +193,7 @@ onMounted(() => {
           </div>
 
           <!-- Seccion para cargar respuestas previas -->
-          <div  v-if="attempts.length > 0" class="border-b border-gray-100 bg-[#fbfbfa] px-6 py-6 sm:px-8">
+          <div v-if="attempts.length > 0" class="border-b border-gray-100 bg-[#fbfbfa] px-6 py-6 sm:px-8">
             <div v-for="attempt in attempts" :key="attempt.id"
               class="mb-3 flex flex-wrap items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 last:mb-0">
               <span class="text-sm font-semibold text-gray-700">Intento ID: {{ attempt.id }}</span>
@@ -237,52 +243,26 @@ onMounted(() => {
 
                   <!-- Tipo TEXTO_LIBRE -->
                   <div v-if="pregunta.tipo_pregunta?.descripcion === 'TEXTO_LIBRE'">
-                    <input v-model="respuestas[pregunta.id]" type="text" :required="pregunta.es_obligatoria"
-                      class="block w-full rounded-2xl border border-gray-200 bg-[#fbfbfa] px-4 py-3 text-base text-gray-900 shadow-sm outline-none transition-all duration-200 placeholder:text-gray-400 focus:border-[#064459]/30 focus:bg-white focus:ring-4 focus:ring-[#064459]/10"
-                      placeholder="Escriba su respuesta aquí..." />
+                    <InputTypeText :pregunta="pregunta" :respuestas="respuestas"
+                      @update:respuestas="handleRespuestaUpdate" />
                   </div>
 
                   <!-- Tipo OPCIONES -->
                   <div v-else-if="pregunta.tipo_pregunta?.descripcion === 'OPCIONES'">
-                    <select v-model.number="respuestas[pregunta.id]" :required="pregunta.es_obligatoria"
-                      class="block w-full appearance-none rounded-2xl border border-gray-200 bg-[#fbfbfa] px-4 py-3 text-base text-gray-900 shadow-sm outline-none transition-all duration-200 focus:border-[#064459]/30 focus:bg-white focus:ring-4 focus:ring-[#064459]/10">
-                      <option disabled value="">Seleccione una opción...</option>
-                      <option v-for="opcion in pregunta.opciones || []" :key="opcion.id" :value="opcion.id"
-                        class="py-2">
-                        {{ opcion.texto_opcion }}
-                      </option>
-                    </select>
+                    <InputTypeDropdown :pregunta="pregunta" :respuestas="respuestas"
+                      @update:respuestas="handleRespuestaUpdate" />
                   </div>
 
                   <!-- Tipo SI_NO -->
                   <div v-else-if="pregunta.tipo_pregunta?.descripcion === 'SI_NO'">
-                    <div class="flex flex-wrap gap-3">
-                      <label class="relative min-w-[120px] max-w-[200px] flex-1 cursor-pointer group">
-                        <input type="radio" v-model="respuestas[pregunta.id]" :value="true"
-                          :required="pregunta.es_obligatoria && respuestas[pregunta.id] === undefined"
-                          class="peer sr-only">
-                        <div
-                          class="flex items-center justify-center rounded-2xl border border-gray-200 bg-[#fbfbfa] p-4 text-base font-medium text-gray-600 transition-all hover:border-[#064459]/20 hover:bg-[#064459]/5 peer-checked:border-[#064459] peer-checked:bg-[#064459]/5 peer-checked:text-[#064459]">
-                          Sí
-                        </div>
-                      </label>
-
-                      <label class="relative min-w-[120px] max-w-[200px] flex-1 cursor-pointer group">
-                        <input type="radio" v-model="respuestas[pregunta.id]" :value="false"
-                          :required="pregunta.es_obligatoria && respuestas[pregunta.id] === undefined"
-                          class="peer sr-only">
-                        <div
-                          class="flex items-center justify-center rounded-2xl border border-gray-200 bg-[#fbfbfa] p-4 text-base font-medium text-gray-600 transition-all hover:border-[#064459]/20 hover:bg-[#064459]/5 peer-checked:border-[#064459] peer-checked:bg-[#064459]/5 peer-checked:text-[#064459]">
-                          No
-                        </div>
-                      </label>
-                    </div>
+                    <InputTypeBoolean :pregunta="pregunta" :respuestas="respuestas"
+                      @update:respuestas="handleRespuestaUpdate" />
                   </div>
 
                   <!-- Escala -->
                   <div v-else-if="pregunta.tipo_pregunta?.descripcion === 'ESCALA'">
-                    <SingleChoice :pregunta="pregunta" :respuestas="respuestas"
-                      @update:respuestas="respuestas = $event" />
+                    <InputTypeEscala :pregunta="pregunta" :respuestas="respuestas"
+                      @update:respuestas="handleRespuestaUpdate" />
                   </div>
 
                   <!-- Etiqueta -->
@@ -291,34 +271,6 @@ onMounted(() => {
                       class="flex items-start gap-3 rounded-2xl border border-[#064459]/10 bg-[#064459]/5 p-4 text-base text-gray-700">
                       <span class="material-symbols-outlined flex-shrink-0 text-indigo-500">info</span>
                       {{ pregunta.descripcion }}
-                    </div>
-                  </div>
-
-                  <!-- Tabla Dinámica -->
-                  <div v-else-if="pregunta.tipo_pregunta?.descripcion === 'TABLA_DINAMICA'">
-                    <div class="overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
-                      <div class="overflow-x-auto custom-scrollbar">
-                        <table class="min-w-full divide-y divide-gray-200">
-                          <thead class="bg-[#fbfbfa]">
-                            <tr>
-                              <th v-for="subPregunta in pregunta.preguntas || []" :key="subPregunta.id"
-                                class="px-5 py-4 text-left text-xs font-semibold uppercase tracking-[0.12em] text-gray-500">
-                                {{ subPregunta.contenido }}
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody class="bg-white divide-y divide-gray-100">
-                            <tr>
-                              <td v-for="subPregunta in pregunta.preguntas || []" :key="subPregunta.id"
-                                class="px-4 py-3 bg-white">
-                                <input v-model="respuestas[subPregunta.id]" type="text"
-                                  class="block w-full rounded-xl border border-gray-200 bg-[#fbfbfa] px-3 py-2.5 text-base text-gray-900 shadow-sm outline-none transition-all focus:border-[#064459]/30 focus:bg-white focus:ring-4 focus:ring-[#064459]/10"
-                                  placeholder="Respuesta..." />
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </div>
                   </div>
 

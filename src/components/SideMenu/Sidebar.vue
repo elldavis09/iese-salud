@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import FooterSection from "@/components/SideMenu/FooterSection.vue";
 
 const router = useRouter();
 const route = useRoute();

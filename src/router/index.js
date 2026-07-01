@@ -36,7 +36,6 @@ const routesRouter = [
             // { path: '', name: 'StudentDashboardHome', redirect: '/student/dashboard/home' },
             { path: 'home', name: 'StudentDashboardHome', component: () => import('@/views/student/Dashboard/DashboardHome.vue') },
             { path: 'forms', name: 'StudentDashboardForms', component: () => import('@/views/student/Dashboard/FormsContent.vue') },
-            { path: 'profile', name: 'StudentDashboardProfile', component: () => import('@/views/student/Dashboard/ProfileContent.vue') },
             { path: 'profile/data', name: 'StudentDashboardProfileData', component: () => import('@/views/student/Dashboard/ProfileData.vue') },
             { path: 'profile/docs', name: 'StudentDashboardProfileDocs', component: () => import('@/views/student/Dashboard/ProfileDocs.vue') },
             { path: 'settings', name: 'StudentDashboardSettings', component: () => import('@/views/student/Dashboard/SettingsContent.vue') },
