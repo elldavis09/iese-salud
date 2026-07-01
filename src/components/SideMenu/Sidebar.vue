@@ -13,11 +13,11 @@ const expandedMenus = ref({});
 
 // Opciones del menú adaptadas con ejemplos de badges y submenús para igualar el diseño
 const menuOptions = ref([
-  {
+  /* {
     name: 'Dashboard',
     icon: 'home',
     path: '/student/dashboard/home'
-  },
+  }, */
   {
     name: 'Mis Formularios',
     icon: 'assignment',
@@ -36,7 +36,7 @@ const menuOptions = ref([
       { name: 'Documentos', path: '/student/dashboard/profile/docs' }
     ]
   },
-  {
+  /* {
     name: 'Configuración',
     icon: 'settings',
     path: '/student/dashboard/settings',
@@ -44,7 +44,7 @@ const menuOptions = ref([
       { text: '+', colorClass: 'bg-[#2B2D31] text-gray-300' },
       { text: '3', colorClass: 'bg-[#FFCBB3] text-[#4A2B1D]' }
     ]
-  },
+  }, */
 ]);
 
 const emit = defineEmits(['logout', 'toggle-collapse']);
